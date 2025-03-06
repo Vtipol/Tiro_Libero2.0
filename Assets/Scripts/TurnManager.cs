@@ -7,6 +7,6 @@ public class TurnManager
 
     public void SwitchTurn()
     {
-        CurrentTurn = (CurrentTurn == Turn.Player) ? Turn.Enemy : Turn.Player;
+        CurrentTurn = (CurrentTurn == Turn.Player) ? Turn.Player1 : Turn.Player2;
     }
 }
