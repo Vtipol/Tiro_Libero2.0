@@ -1,0 +1,54 @@
+{
+    "name": "MyInputActions",
+    "maps": [
+        {
+            "name": "Mouse",
+            "id": "f8e039fc-d13f-4eb7-bd59-66149caf47fd",
+            "actions": [
+                {
+                    "name": "MouseReleased",
+                    "type": "Button",
+                    "id": "8c425199-dff9-4665-9158-9c49ce18413f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseMoved",
+                    "type": "Value",
+                    "id": "19d74487-e2ed-4f10-ab5c-766472c5218b",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3207b5ac-f760-45f8-bfdb-cf394ddf0a4b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseReleased",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48c80382-c03d-41cf-ba1b-18ed83e620b9",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseMoved",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
