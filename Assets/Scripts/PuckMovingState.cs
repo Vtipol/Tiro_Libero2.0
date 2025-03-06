@@ -1,6 +1,5 @@
-using System;
-using UnityEngine;
-// Quando il puck si smette di muovere allora cambia stato
+using System.Diagnostics;
+
 public class PuckMovingState : State
 {
     private GameManager gameManager;
@@ -13,15 +12,23 @@ public class PuckMovingState : State
     public override void Enter()
     {
         Debug.Log("Puck is moving...");
-        //TODO: Disabilità l'input del giocatore quando è in questo stato
+        //TODO: disabilità input giocatore
     }
 
     public override void Update()
     {
-        if (/* Condizione: Puck Fermo = */ false)  //TODO: cambiare questa condizione.
+        if (/* Condizione per puck */ false) // Rimpiazza con Check
         {
-            gameManager.SetState(new GameOverState(gameManager));
+            gameManager.turnManager.SwitchTurn(); // Cambio turni
+
+            if (gameManager.turnManager.CurrentTurn == TurnManager.Turn.Player)
+            {
+                gameManager.SetState(new PlayerTurnState(gameManager));
+            }
+            else
+            {
+                gameManager.SetState(new EnemyTurnState(gameManager));
+            }
         }
     }
 }
-

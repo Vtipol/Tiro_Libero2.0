@@ -1,5 +1,4 @@
-using System;
-using UnityEngine;
+using System.Diagnostics;
 
 public class PlayerTurnState : State
 {
@@ -13,15 +12,14 @@ public class PlayerTurnState : State
     public override void Enter()
     {
         Debug.Log("Player's turn...");
-        //TODO: abiltà controlli giocatore
+        // TODO:abilita controllo giocatore
     }
 
     public override void Update()
     {
-        if (Input.GetMouseButtonUp(0)) //TODO: da cambiare
-        { //quando lo "sparo" è rilasciato vai avanti e cambia stato in PuckMovingState
+        if (Input.GetMouseButtonUp(0)) // TODO: cambiare input
+        {
             gameManager.SetState(new PuckMovingState(gameManager));
         }
     }
 }
-

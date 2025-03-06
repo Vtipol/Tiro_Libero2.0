@@ -1,19 +1,20 @@
-using System;
-using UnityEngine;
+using UnityEvents;
 
 public class GameManager : MonoBehaviour
 {
-    private StateMachine stateMachine; //crea e attiva la state machine 
+    private StateMachine stateMachine;
+    public TurnManager turnManager { get; private set; }
 
     private void Start()
     {
+        turnManager = new TurnManager();
         stateMachine = new StateMachine();
-        stateMachine.ChangeState(new SetupBoardState(this)); //inizia con questo stato
+        stateMachine.ChangeState(new SetupBoardState(this));
     }
 
     private void Update()
     {
-        stateMachine.Update(); // richiama un update sullo stato attivo
+        stateMachine.Update();
     }
 
     public void SetState(State newState)
@@ -21,4 +22,3 @@ public class GameManager : MonoBehaviour
         stateMachine.ChangeState(newState);
     }
 }
-
