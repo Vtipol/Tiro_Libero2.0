@@ -58,13 +58,19 @@ public class PlayerPuckPlacementState : State
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.gameObject.GetComponent<PlanePivotPuck>() != null)
+            //PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
+            PlanePivotPuck planePvotPuck = hit.collider.gameObject.GetComponent<PlanePivotPuck>();
+            if (planePvotPuck != null && planePvotPuck.busy == false)
             {
-                Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un piano");
+                //Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un piano");
 
-                if(_owner.puckSelected != null)
+                if(_owner.puckSelected != null && _owner.puckSelected.GetComponent<PuckSelectable>().placed == false)
                 {
-                    _owner.puckSelected.transform.position = hit.collider.gameObject.GetComponent<PlanePivotPuck>().puckPos.transform.position;
+                    _owner.puckSelected.transform.position = planePvotPuck.puckPos.transform.position;
+                    planePvotPuck.busy = true;
+
+                    _owner.puckSelected.GetComponent<PuckSelectable>().placed = true;
+
                     _owner.puckSelected = null;
                     _owner.placedPucks++;
                     if (_owner.placedPucks >= _owner.maxPucks)

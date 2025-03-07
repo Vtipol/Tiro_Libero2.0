@@ -2,7 +2,16 @@ using UnityEngine;
 
 public class PlayerPuckAimingState : State
 {
-    public Vector2 mousePos;
+    private Vector3 startMousePosition;
+    private Vector3 endMousePosition;
+
+    private Vector2 CardinalXZStart;
+    private Vector2 CardinalXZEnd;
+
+    //private GameObject puckToThrow;
+    private Rigidbody puckToThrowRB;
+    private Vector2 directionThrowXZ;
+
     public PlayerPuckAimingState(PlayerStateMachine player)
     {
         _owner = player;
@@ -64,27 +73,49 @@ public class PlayerPuckAimingState : State
 
         if (Physics.Raycast(ray, out hit))
         {
-            if (hit.collider.gameObject.GetComponent<IPuckInteractable>() != null)
+            PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
+            if (puckSelectable != null && puckSelectable.placed == true && puckSelectable.throwed == false)
             {
+                _owner.puckToThrow = hit.collider.gameObject;
+
                 Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un puck da esser lanciato");
-                _owner.puckToShoot = hit.collider.gameObject;
+
+                //puckToThrow = puckSelectable.GetComponent<GameObject>();
+                puckToThrowRB = _owner.puckToThrow.GetComponent<Rigidbody>();
+
+                startMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
+                CardinalXZStart = new Vector2(startMousePosition.x, startMousePosition.z);
             }
         }
-
-
-        _owner.placedPucks--;
-        if (_owner.placedPucks <= 0)
-            _owner.SetState(EPlayerState.PlayerWaiting);
-        else
-            _owner.SetState(EPlayerState.PlayerPuckPlacement);
     }
 
     public void Shoot()
     {
-        //WIP
-        if(_owner.puckToShoot != null)
+        if (_owner.puckToThrow != null)
         {
-            //funzione per lanciare il puck
+            endMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
+            CardinalXZEnd = new Vector2(endMousePosition.x, endMousePosition.z);
+
+            if (_owner.invertedAim)
+                directionThrowXZ = (CardinalXZStart - CardinalXZEnd);
+            else
+                directionThrowXZ = (CardinalXZEnd - CardinalXZStart);
+
+            Debug.Log("Direzione di sparo: " + directionThrowXZ);
+
+            if (puckToThrowRB != null)
+            {
+                //applica la forza al rb
+                puckToThrowRB.AddForce(new Vector3(directionThrowXZ.x, 0, directionThrowXZ.y) * _owner.throwForce, ForceMode.Impulse);
+
+                _owner.puckToThrow.GetComponent<PuckSelectable>().throwed = true;
+                _owner.puckToThrow = null;
+                _owner.placedPucks--;
+                if (_owner.placedPucks <= 0)
+                {
+                    _owner.SetState(EPlayerState.PlayerWaiting);
+                }
+            }
         }
     }
 }

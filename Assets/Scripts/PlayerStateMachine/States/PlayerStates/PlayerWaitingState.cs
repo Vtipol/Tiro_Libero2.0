@@ -19,6 +19,7 @@ public class PlayerWaitingState : State
 
     public override void OnEnterState()
     {
+        //manda un segnale al game manager che gli dice di andare in movement state
         Debug.Log("Sto entrando in PlayerWaitingState");
     }
 

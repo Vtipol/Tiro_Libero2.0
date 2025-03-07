@@ -5,12 +5,13 @@ public class PlayerStateMachine : MonoBehaviour
     public GenericStateMachine<EPlayerState> StateMachine;
     public EPlayerState firstState;
     public GameObject puckSelected;
-    public GameObject puckToShoot;
+    public GameObject puckToThrow;
+
+    public bool invertedAim;
+    public float throwForce = 50f;
 
     public int maxPucks = 7;
     public int placedPucks = 0;
-
-
     private void Awake()
     {
         StateMachine = new GenericStateMachine<EPlayerState>();

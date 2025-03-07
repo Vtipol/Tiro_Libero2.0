@@ -66,9 +66,10 @@ public class PlayerPuckSelectionState : State
 
         if (Physics.Raycast(ray, out hit))
         {
-            if(hit.collider.gameObject.GetComponent<IPuckInteractable>() != null)
+            PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
+            if (puckSelectable != null && puckSelectable.placed == false)
             {
-                Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un puck");
+                //Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un puck");
                 _owner.puckSelected = hit.collider.gameObject;
                 _owner.SetState(EPlayerState.PlayerPuckPlacement);
             }
