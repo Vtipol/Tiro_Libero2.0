@@ -1,12 +1,12 @@
+using System;
 using UnityEngine;
-
-public class TurnManager
+public static class TurnManager
 {
-    public enum Turn { Player1, Player2 } // deve essere espenso e modificato per due o quattro giocatori
-    public Turn CurrentTurn { get; private set; } = Turn.Player; // ditto
+    public enum Turn { Player1, Player2, Player3, Player4 }
+    public static Turn CurrentTurn { get; private set; } = Turn.Player1;
 
-    public void SwitchTurn()
+    public static void SwitchTurn()
     {
-        CurrentTurn = (CurrentTurn == Turn.Player) ? Turn.Player1 : Turn.Player2;
+        CurrentTurn = (Turn)(((int)CurrentTurn + 1) % Enum.GetValues(typeof(Turn)).Length);
     }
 }

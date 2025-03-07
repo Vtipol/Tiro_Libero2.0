@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = nameof(State), menuName = nameof(ScriptableObject) + "/"
-    + nameof(State)
+[CreateAssetMenu(fileName = nameof(MachineState), menuName = nameof(ScriptableObject) + "/"
+    + nameof(MachineState)
 )]
 
-public class State : ScriptableVar { }
+public class MachineState : ScriptableVar { }

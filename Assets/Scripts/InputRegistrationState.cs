@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 // il gioco aspetta il giocatore prima che inizia, dopo l'input va avanti
-public class InputRegistrationState : State
+public class InputRegistrationState : StateMachineState
 {
     private GameManager gameManager;
 

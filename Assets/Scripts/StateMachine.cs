@@ -5,9 +5,9 @@ using UnityEngine;
  */
 public class StateMachine
 {
-    private State currentState; 
+    private StateMachineState currentState; 
 
-    public void ChangeState(State newState)
+    public void ChangeState(StateMachineState newState)
     {
         if (currentState != null)
             currentState.Exit(); 

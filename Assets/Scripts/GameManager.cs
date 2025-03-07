@@ -1,13 +1,11 @@
-using UnityEvents;
+using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     private StateMachine stateMachine;
-    public TurnManager turnManager { get; private set; }
 
     private void Start()
     {
-        turnManager = new TurnManager();
         stateMachine = new StateMachine();
         stateMachine.ChangeState(new SetupBoardState(this));
     }
@@ -17,7 +15,7 @@ public class GameManager : MonoBehaviour
         stateMachine.Update();
     }
 
-    public void SetState(State newState)
+    public void SetState(StateMachineState newState)
     {
         stateMachine.ChangeState(newState);
     }

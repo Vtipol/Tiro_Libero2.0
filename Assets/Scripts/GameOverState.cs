@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 // abbastanza ovvio, il gioco è finito
-public class GameOverState : State
+public class GameOverState : StateMachineState
 {
     private GameManager gameManager;
 

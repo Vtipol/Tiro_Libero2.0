@@ -1,6 +1,6 @@
-using System.Diagnostics;
 
-public class PlayerTurnState : State
+using UnityEngine;
+public class PlayerTurnState : StateMachineState
 {
     private GameManager gameManager;
 
@@ -17,7 +17,7 @@ public class PlayerTurnState : State
 
     public override void Update()
     {
-        if (Input.GetMouseButtonUp(0)) // TODO: cambiare input
+        if (Input.GetKeyDown(KeyCode.K)) // TODO: cambiare input
         {
             gameManager.SetState(new PuckMovingState(gameManager));
         }

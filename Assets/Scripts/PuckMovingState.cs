@@ -1,6 +1,6 @@
-using System.Diagnostics;
+using UnityEngine;
 
-public class PuckMovingState : State
+public class PuckMovingState : StateMachineState
 {
     private GameManager gameManager;
 
@@ -11,24 +11,17 @@ public class PuckMovingState : State
 
     public override void Enter()
     {
-        Debug.Log("Puck is moving...");
+        Debug.Log("Puck is Moving");
         //TODO: disabilità input giocatore
     }
-
     public override void Update()
     {
-        if (/* Condizione per puck */ false) // Rimpiazza con Check
+        if (Puck.PuckStop()) // Rimpiazza con Check
         {
-            gameManager.turnManager.SwitchTurn(); // Cambio turni
-
-            if (gameManager.turnManager.CurrentTurn == TurnManager.Turn.Player)
-            {
-                gameManager.SetState(new PlayerTurnState(gameManager));
-            }
-            else
-            {
-                gameManager.SetState(new EnemyTurnState(gameManager));
-            }
+            Debug.Log(TurnManager.CurrentTurn);
+            TurnManager.SwitchTurn(); // Cambio turni
+            gameManager.SetState(new PlayerTurnState(gameManager));
+            Debug.Log(TurnManager.CurrentTurn);
         }
     }
 }

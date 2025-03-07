@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 // fa il setup del gioco prima che inizia
-public class SetupBoardState : State
+public class SetupBoardState : StateMachineState
 {
     private GameManager gameManager;
 
