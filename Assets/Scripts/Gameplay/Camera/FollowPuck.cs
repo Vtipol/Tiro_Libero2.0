@@ -51,7 +51,7 @@ public class FollowPuck : MonoBehaviour
     {
 
     }
-
+   
     // Called every frame
     private void Update()
     {
@@ -69,7 +69,7 @@ public class FollowPuck : MonoBehaviour
 
         // Compute new zoom level
         float newZoom = Mathf.Lerp(maxZoom, minZoom, Mathf.InverseLerp(0f, maxZoom, zoomAmount));
-        Debug.Log(newZoom);
+        //Debug.Log(newZoom);
 
         _followCamera.Lens.OrthographicSize = newZoom;
         //// Adjust camera position to shift upwards
@@ -77,7 +77,7 @@ public class FollowPuck : MonoBehaviour
         //camPos.z += heightOffset * progress;
         //_followCamera.transform.position = camPos;
     }
-
+    
     // Called on every physics update (Fixed timestep)
     private void FixedUpdate()
     {
