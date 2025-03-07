@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Board : MonoBehaviour
+public class Board : Singleton<Board>
 {
     public Texture2D texture;
     public float radius;
