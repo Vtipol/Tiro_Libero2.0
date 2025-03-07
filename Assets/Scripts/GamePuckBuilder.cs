@@ -12,10 +12,9 @@ public enum PuckType
 
 public class GamePuckBuilder : MonoBehaviour
 {
-    public int normalPucksSelected = 1;
-    public int weightPucksSelected = 1;
-    public int bigPucksSelected = 1;
-    public int maxPucks = 7;
+    private int normalPucksSelected = 1;
+    private int weightPucksSelected = 1;
+    private int bigPucksSelected = 1;
     [Header("Buttons")]
     public Button addNormalPuck;
     public Button removeNormalPuck;
@@ -30,9 +29,20 @@ public class GamePuckBuilder : MonoBehaviour
     public TMP_Text weightPucksText;
     public TMP_Text bigPucksText;
 
+    [Header("Type Of Pucks")]
+    public GameObject normalPuckPrefab;
+    public GameObject weightPuckPrefab;
+    public GameObject bigPuckPrefab;
+
+    public int maxPucks = 7;
+    public Transform[] puckSpawnPoints;
+    private int puckSpawnIndex = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //puckSpawnPoints = new Transform[maxPucks];
+
         addNormalPuck.onClick.AddListener(AddNormalPuck);
         removeNormalPuck.onClick.AddListener(RemoveNormalPuck);
 
@@ -74,7 +84,22 @@ public class GamePuckBuilder : MonoBehaviour
     }
     public void Confirm()
     {
-        Debug.Log("ho confermato e ho "+ maxPucks+ " Pucks ^^");
+        //Debug.Log("ho confermato e ho "+ maxPucks+ " Pucks ^^");
+        for(int i = 0; i<normalPucksSelected; i++)
+        {
+            Instantiate(normalPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            puckSpawnIndex++;
+        }
+        for (int i = 0; i < weightPucksSelected; i++)
+        {
+            Instantiate(weightPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            puckSpawnIndex++;
+        }
+        for (int i = 0; i < bigPucksSelected; i++)
+        {
+            Instantiate(bigPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            puckSpawnIndex++;
+        }
     }
 
     private void AddRemovePuckType(PuckType _puckType, bool _AddRemove)

@@ -12,6 +12,8 @@ public class PlayerPuckAimingState : State
     private Rigidbody puckToThrowRB;
     private Vector2 directionThrowXZ;
 
+    private bool aiming;
+
     public PlayerPuckAimingState(PlayerStateMachine player)
     {
         _owner = player;
@@ -60,9 +62,14 @@ public class PlayerPuckAimingState : State
         {
             Charge();
         }
-        if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             Shoot();
+        }
+        if(aiming)
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
+            _owner.lineRenderer.SetPosition(1, mousePos);
         }
     }
 
@@ -85,6 +92,12 @@ public class PlayerPuckAimingState : State
 
                 startMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
                 CardinalXZStart = new Vector2(startMousePosition.x, startMousePosition.z);
+
+                aiming = true;
+
+                _owner.lineRenderer.SetPosition(0, new Vector3(_owner.puckToThrow.transform.position.x, 0, _owner.puckToThrow.transform.position.z));
+                //_owner.lineRenderer.SetPosition(1, new Vector3(startMousePosition.x, 0, startMousePosition.z));
+                _owner.lineRenderer.enabled = true;
             }
         }
     }
@@ -95,6 +108,9 @@ public class PlayerPuckAimingState : State
         {
             endMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
             CardinalXZEnd = new Vector2(endMousePosition.x, endMousePosition.z);
+
+            _owner.lineRenderer.SetPosition(1, new Vector3(endMousePosition.x, 0, endMousePosition.z));
+            _owner.lineRenderer.enabled = false;
 
             if (_owner.invertedAim)
                 directionThrowXZ = (CardinalXZStart - CardinalXZEnd);
@@ -110,8 +126,8 @@ public class PlayerPuckAimingState : State
 
                 _owner.puckToThrow.GetComponent<PuckSelectable>().throwed = true;
                 _owner.puckToThrow = null;
-                _owner.placedPucks--;
-                if (_owner.placedPucks <= 0)
+                _owner.myPlacedPucks--;
+                if (_owner.myPlacedPucks <= 0 || _owner.place1AtTime)
                 {
                     _owner.SetState(EPlayerState.PlayerWaiting);
                 }

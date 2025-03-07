@@ -19,8 +19,12 @@ public class PlayerWaitingState : State
 
     public override void OnEnterState()
     {
-        //manda un segnale al game manager che gli dice di andare in movement state
         Debug.Log("Sto entrando in PlayerWaitingState");
+        //manda un segnale al game manager che gli dice di andare in movement state
+        //o faccio un controllo sui miei puck per vedere se sono fermi o "tiri nulli" e controllo tutti
+        //i puck presenti sulla board, o intanto mando un segnale al game manager.
+
+        Debug.Log("mando un segnale al game manager che mi controlla se tutti i puck sono fermi");
     }
 
     public override void OnExitState()

@@ -72,8 +72,8 @@ public class PlayerPuckPlacementState : State
                     _owner.puckSelected.GetComponent<PuckSelectable>().placed = true;
 
                     _owner.puckSelected = null;
-                    _owner.placedPucks++;
-                    if (_owner.placedPucks >= _owner.maxPucks)
+                    _owner.myPlacedPucks++;
+                    if (_owner.myPlacedPucks >= _owner.maxPucks || _owner.place1AtTime)
                         _owner.SetState(EPlayerState.PlayerPuckAiming);
                     else
                         _owner.SetState(EPlayerState.PlayerPuckSelection);
