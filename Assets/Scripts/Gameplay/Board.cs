@@ -12,7 +12,7 @@ public class Board : MonoBehaviour
         this.radius = radius;
     }
 
-    public BoardScoreInfo GetScore(Vector3 position)
+    public BoardScoreInfo GetScore(Vector3 position, int player)
     {
         if (texture == null)
         {
@@ -29,9 +29,13 @@ public class Board : MonoBehaviour
         Color pixelColor = texture.GetPixel(x, y);
 
         int score = Mathf.RoundToInt(pixelColor.r * 255 / textureInfoColorIncrement);
-        int slice = Mathf.RoundToInt(pixelColor.g * 255 / textureInfoColorIncrement);
+        int slice = Mathf.RoundToInt(pixelColor.g * 255 / textureInfoColorIncrement) -1;
 
-        return new BoardScoreInfo(score, slice);
+        if(slice != (player-1+2)%4){//Free for all scoring
+            score = 0;
+        }
+
+        return new BoardScoreInfo(score, slice+1);
     }
 }
 
