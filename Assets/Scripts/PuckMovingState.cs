@@ -20,7 +20,7 @@ public class PuckMovingState : StateMachineState
         {
             Debug.Log(TurnManager.CurrentTurn);
             TurnManager.SwitchTurn(); // Cambio turni
-            gameManager.SetState(new PlayerTurnState(gameManager));
+            gameManager.SetState(new InputRegistrationState(gameManager));
             Debug.Log(TurnManager.CurrentTurn);
         }
     }
