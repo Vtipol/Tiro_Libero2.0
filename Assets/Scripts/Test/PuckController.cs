@@ -68,5 +68,9 @@ public class PuckController : MonoBehaviour
         float radianAngle = currentAngle * Mathf.Deg2Rad;
         Vector3 newPos = new Vector3(Mathf.Cos(radianAngle), 0, Mathf.Sin(radianAngle)) * radius;
         puck.transform.position = centerPoint.position + newPos;
+        Rigidbody rb = puck.GetComponent<Rigidbody>();
+        rb.linearVelocity *= 0;
+        rb.angularVelocity *= 0;
+        puck.transform.rotation = Quaternion.Euler(new(0, puck.transform.rotation.eulerAngles.y, 0));
     }
 }

@@ -1,16 +1,18 @@
-using Unity.Cinemachine;
 using UnityEngine;
+using System.Collections.Generic;
 
-public class FallingCamera : MonoBehaviour
+public class DisableColliders : MonoBehaviour
 {
     #region Variables
     // Add your variables here
-    [SerializeField] private CinemachineCamera[] _fallingCameras;
-    [SerializeField] private CinemachineCamera _boardCamera;
-    [SerializeField] private CinemachineCamera _followCamera;
 
-    private int _fallingCameraIndex;
-    private bool _isFalling = false;
+    // Pucks are added when first thrown
+    // Going outside of the radius disables the colliders
+    [SerializeField] private List<Rigidbody> _rbPucks;
+    [SerializeField] private Transform _center;
+    [SerializeField] private float _radius;
+
+    [SerializeField] private LayerMask _triggersLayerMask;
 
     #endregion
 
@@ -19,7 +21,7 @@ public class FallingCamera : MonoBehaviour
     // Called when the script is initialized
     private void Awake()
     {
-
+        
     }
 
     // Called when the script is initialized
@@ -43,7 +45,18 @@ public class FallingCamera : MonoBehaviour
     // Called every frame
     private void Update()
     {
-
+        for (int i = 0; i < _rbPucks.Count; i++)
+        {
+            Transform transform = _rbPucks[i].transform;
+            if (Vector3.Distance(transform.position, _center.position) > _radius)
+            {
+                _rbPucks[i].excludeLayers = ~_triggersLayerMask.value;
+            }
+            else
+            { 
+                _rbPucks[i].excludeLayers = 0;
+            }
+        }
     }
 
     // Called on every physics update (Fixed timestep)
@@ -83,17 +96,7 @@ public class FallingCamera : MonoBehaviour
     // Called when a trigger collider enters another collider
     private void OnTriggerEnter(Collider other)
     {
-        if (_isFalling) return;
 
-        _isFalling = true;
-
-        Debug.Log(other.name);
-        _fallingCameraIndex = FindClosestCamera(other.transform);
-        _fallingCameras[_fallingCameraIndex].Follow = other.transform;
-        _fallingCameras[_fallingCameraIndex].Priority = 15;
-        _boardCamera.Priority = 10;
-        _followCamera.Priority = 5;
-        Invoke(nameof(SwitchToStationaryCamera), 2f);
     }
 
     // Called when a trigger collider stays in contact with another collider
@@ -110,35 +113,6 @@ public class FallingCamera : MonoBehaviour
     #endregion
 
     #region Custom Methods
-
-    private void SwitchToStationaryCamera()
-    {
-        _fallingCameras[_fallingCameraIndex].Priority = 0;
-        _boardCamera.Priority = 15;
-        _followCamera.Priority = 5;
-
-        _isFalling = false;
-    }
-
-    private int FindClosestCamera(Transform puck)
-    {
-        int index = 0;
-
-        float minDistance = float.MaxValue;
-
-        for (int i = 0; i < _fallingCameras.Length; i++)
-        {
-            if (Vector3.Distance(puck.position, _fallingCameras[i].transform.position) < minDistance)
-            {
-                minDistance = Vector3.Distance(puck.position, _fallingCameras[i].transform.position);
-                index = i;
-            }
-        }
-
-
-        Debug.Log(index);
-        return index;
-    }
 
     #endregion
 }
