@@ -89,6 +89,7 @@ public class FallingCamera : MonoBehaviour
 
         Debug.Log(other.name);
         _fallingCameraIndex = FindClosestCamera(other.transform);
+        _fallingCameras[_fallingCameraIndex].Follow = other.transform;
         _fallingCameras[_fallingCameraIndex].Priority = 15;
         _boardCamera.Priority = 10;
         _followCamera.Priority = 5;
