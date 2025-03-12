@@ -108,6 +108,15 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""AdjustRotation"",
+                    ""type"": ""Button"",
+                    ""id"": ""f4bcc3f2-76fe-4424-b83b-437918b46ae0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MouseMoved"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d588016-9d39-430b-aa88-395c4b9a9e37"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AdjustRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -142,6 +162,7 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
         m_Mouse_MouseReleased = m_Mouse.FindAction("MouseReleased", throwIfNotFound: true);
         m_Mouse_MouseMoved = m_Mouse.FindAction("MouseMoved", throwIfNotFound: true);
+        m_Mouse_AdjustRotation = m_Mouse.FindAction("AdjustRotation", throwIfNotFound: true);
     }
 
     ~@MyInputActions()
@@ -224,6 +245,7 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
     private readonly InputAction m_Mouse_MouseReleased;
     private readonly InputAction m_Mouse_MouseMoved;
+    private readonly InputAction m_Mouse_AdjustRotation;
     /// <summary>
     /// Provides access to input actions defined in input action map "Mouse".
     /// </summary>
@@ -243,6 +265,10 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Mouse/MouseMoved".
         /// </summary>
         public InputAction @MouseMoved => m_Wrapper.m_Mouse_MouseMoved;
+        /// <summary>
+        /// Provides access to the underlying input action "Mouse/AdjustRotation".
+        /// </summary>
+        public InputAction @AdjustRotation => m_Wrapper.m_Mouse_AdjustRotation;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -275,6 +301,9 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
             @MouseMoved.started += instance.OnMouseMoved;
             @MouseMoved.performed += instance.OnMouseMoved;
             @MouseMoved.canceled += instance.OnMouseMoved;
+            @AdjustRotation.started += instance.OnAdjustRotation;
+            @AdjustRotation.performed += instance.OnAdjustRotation;
+            @AdjustRotation.canceled += instance.OnAdjustRotation;
         }
 
         /// <summary>
@@ -292,6 +321,9 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
             @MouseMoved.started -= instance.OnMouseMoved;
             @MouseMoved.performed -= instance.OnMouseMoved;
             @MouseMoved.canceled -= instance.OnMouseMoved;
+            @AdjustRotation.started -= instance.OnAdjustRotation;
+            @AdjustRotation.performed -= instance.OnAdjustRotation;
+            @AdjustRotation.canceled -= instance.OnAdjustRotation;
         }
 
         /// <summary>
@@ -346,5 +378,12 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMouseMoved(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AdjustRotation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAdjustRotation(InputAction.CallbackContext context);
     }
 }

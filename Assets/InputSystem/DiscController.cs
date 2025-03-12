@@ -12,6 +12,8 @@ public class DiscController : MonoBehaviour
     public float force;
     public bool isMoving = false;
 
+    private float currentRotationZ = 1f;
+
     // Aggiungi i quattro trasformazioni per definire i vertici del poligono
     public Transform transform1;
     public Transform transform2;
@@ -23,9 +25,11 @@ public class DiscController : MonoBehaviour
         input = new MyInputActions();
         input.Mouse.MouseMoved.performed += MouseMoved_Performed;
         input.Mouse.MouseReleased.performed += MouseRealeased_Performed;
+        input.Mouse.AdjustRotation.performed += AdjustRotation_Performed;
         input.Enable();
     }
 
+   
     private void OnDisable()
     {
         input.Mouse.MouseMoved.performed -= MouseMoved_Performed;
@@ -49,6 +53,17 @@ public class DiscController : MonoBehaviour
         }
     }
 
+    private void AdjustRotation_Performed(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            AdjustRotation();
+        }
+        
+    }
+
+   
+
     private void MouseMoved()
     {
         if (!isMoving)
@@ -61,8 +76,12 @@ public class DiscController : MonoBehaviour
 
             // Aggiorna la posizione del disco
             discPosition.position = projectedPosition;
+
+            
         }
     }
+
+    
 
     private void MouseRealeased()
     {
@@ -73,14 +92,75 @@ public class DiscController : MonoBehaviour
             Vector3 mousePosition = Mouse.current.position.ReadValue();
             Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, distanceFromCamera));
 
-            // Proietta la posizione del mouse sul bordo più vicino del poligono
-            Vector3 projectedPosition = ProjectPointOntoPolygon(mouseWorldPosition);
+            // Trova il quadrante in cui si trova il mouse
+            int quadrant = GetQuadrant(mouseWorldPosition);
 
-            // Applica la forza nella direzione del movimento
-            Vector3 direction = (projectedPosition - discPosition.position).normalized;
+            // Calcola la direzione del lancio in base al quadrante
+            Vector3 direction = CalculateDirection(quadrant, mouseWorldPosition);
+
+            // Applica la forza nella direzione calcolata
             rb.AddForce(direction * force, ForceMode.Impulse);
+
+            
         }
     }
+
+    private void AdjustRotation()
+    {
+        currentRotationZ = 1f;
+        discPosition.Rotate(0,0, currentRotationZ,Space.Self);
+
+    }
+
+
+    // Funzione per determinare il quadrante in cui si trova il punto
+    private int GetQuadrant(Vector3 point)
+    {
+        Vector3 center = GetPolygonCenter();
+
+        if (point.x >= center.x && point.z >= center.z)
+            return 1; // Primo quadrante
+        else if (point.x < center.x && point.z >= center.z)
+            return 2; // Secondo quadrante
+        else if (point.x < center.x && point.z < center.z)
+            return 3; // Terzo quadrante
+        else
+            return 4; // Quarto quadrante
+    }
+
+    // Funzione per calcolare la direzione del lancio in base al quadrante
+    private Vector3 CalculateDirection(int quadrant, Vector3 mousePosition)
+    {
+        Vector3 center = GetPolygonCenter();
+        Vector3 direction = Vector3.zero;
+
+        switch (quadrant)
+        {
+            case 1:
+                direction = (mousePosition - center).normalized;
+                break;
+            case 2:
+                direction = (mousePosition - center).normalized;
+                break;
+            case 3:
+                direction = (mousePosition - center).normalized;
+                break;
+            case 4:
+                direction = (mousePosition - center).normalized;
+                break;
+        }
+
+        return direction;
+    }
+
+    // Funzione per ottenere il centro del poligono
+    private Vector3 GetPolygonCenter()
+    {
+        Vector3 center = (transform1.position + transform2.position + transform3.position + transform4.position) / 4;
+        return center;
+    }
+
+    
 
     // Funzione per proiettare un punto sul bordo più vicino del poligono
     private Vector3 ProjectPointOntoPolygon(Vector3 point)
