@@ -7,11 +7,26 @@ public class PlayerStateMachine : MonoBehaviour
     public EPlayerState firstState;
     public GameObject puckSelected;
     public GameObject puckToThrow;
+    public PuckSelectable SelectablePuckTT;
 
+    public PuckController puckController;
+    public LayerMask puckLayerMask;
+
+    [Header("Aim Var")]
     public LineRenderer lineRenderer;
     public bool invertedAim;
-    public float throwForce = 50f;
+    public bool invertedThrow;
+    public float throwForce = 2f;
 
+    public float trembling;
+
+    public float minDistanceToThrow;
+    public float MaxDistanceToThrow;
+    public float tremblingThreshold = 2.5f;
+    public float tremblingAmplitude = 0.5f;
+    public float tremblingSpeed = 5f;
+
+    [Header("Player Var")]
     public int maxPucks = 7;
     public int myPlacedPucks = 0;
     public bool place1AtTime;

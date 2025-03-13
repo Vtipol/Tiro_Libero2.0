@@ -20,6 +20,11 @@ public class PlayerPuckPlacementState : State
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckPlacementState");
+        _owner.puckController.enabled = true;
+
+        _owner.puckController.puck.SetActive(false);
+        _owner.puckController.puck = _owner.puckSelected;
+        _owner.puckController.InitializePuckPosition();
     }
 
     public override void OnExitState()
@@ -45,41 +50,12 @@ public class PlayerPuckPlacementState : State
     public override void OnUpdate()
     {
         Debug.Log("Sono nell'update di PlayerPuckPlacementState");
-        //al posto di questo if la funzione sarà aggiunta alla
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlacementPuck();
+            //Place Puck
+            _owner.puckController.enabled = false;
+            _owner.SelectablePuckTT.placed = true;
+            _owner.SetState(EPlayerState.PlayerPuckAiming);
         }
     }
-    public void PlacementPuck()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-            //PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
-            PlanePivotPuck planePvotPuck = hit.collider.gameObject.GetComponent<PlanePivotPuck>();
-            if (planePvotPuck != null && planePvotPuck.busy == false)
-            {
-                //Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un piano");
-
-                if(_owner.puckSelected != null && _owner.puckSelected.GetComponent<PuckSelectable>().placed == false)
-                {
-                    _owner.puckSelected.transform.position = planePvotPuck.puckPos.transform.position;
-                    planePvotPuck.busy = true;
-
-                    _owner.puckSelected.GetComponent<PuckSelectable>().placed = true;
-
-                    _owner.puckSelected = null;
-                    _owner.myPlacedPucks++;
-                    if (_owner.myPlacedPucks >= _owner.maxPucks || _owner.place1AtTime)
-                        _owner.SetState(EPlayerState.PlayerPuckAiming);
-                    else
-                        _owner.SetState(EPlayerState.PlayerPuckSelection);
-                }
-            }
-        }
-    }
-
 }

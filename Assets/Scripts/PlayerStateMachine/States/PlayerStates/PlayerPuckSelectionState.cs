@@ -69,8 +69,11 @@ public class PlayerPuckSelectionState : State
             PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
             if (puckSelectable != null && puckSelectable.placed == false)
             {
-                //Debug.Log("oggetto colpito: " + hit.collider.gameObject.name + " che è un puck");
-                _owner.puckSelected = hit.collider.gameObject;
+                //hit.collider.enabled = false;
+                _owner.SelectablePuckTT = puckSelectable;
+                _owner.puckSelected = puckSelectable.puck;
+                _owner.puckSelected.transform.position = _owner.puckController.puck.transform.position;
+
                 _owner.SetState(EPlayerState.PlayerPuckPlacement);
             }
         }
