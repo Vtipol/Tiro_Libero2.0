@@ -366,7 +366,7 @@ MonoBehaviour:
   rb: {fileID: 1146719246}
   mainCamera: {fileID: 618709452}
   distanceFromCamera: 10
-  force: 20
+  force: 10
   isMoving: 0
   transform1: {fileID: 295841051}
   transform2: {fileID: 697644849}
@@ -440,6 +440,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1146719250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146719241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 110decd1ec4b15240aaacfc70ac6449b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axisLength: 1
 --- !u!1 &1147171710
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,6 +777,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5579048177182189025, guid: 8fa6913308288614b91d793b46aac6bd, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1146719246}
+    - targetCorrespondingSourceObject: {fileID: 5579048177182189025, guid: 8fa6913308288614b91d793b46aac6bd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1146719250}
   m_SourcePrefab: {fileID: 100100000, guid: 8fa6913308288614b91d793b46aac6bd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -1,8 +1,9 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class DiscController : MonoBehaviour
+public class SlingshotController : MonoBehaviour
 {
     private MyInputActions input;
     public Transform discPosition;
@@ -12,7 +13,7 @@ public class DiscController : MonoBehaviour
     public float force;
     public bool isMoving = false;
 
-    private float currentRotationZ = 1f;
+    private float currentRotationY = 1f;
 
     // Aggiungi i quattro trasformazioni per definire i vertici del poligono
     public Transform transform1;
@@ -34,6 +35,7 @@ public class DiscController : MonoBehaviour
     {
         input.Mouse.MouseMoved.performed -= MouseMoved_Performed;
         input.Mouse.MouseReleased.performed -= MouseRealeased_Performed;
+        input.Mouse.AdjustRotation.performed -= AdjustRotation_Performed;
         input.Disable();
     }
 
@@ -94,6 +96,7 @@ public class DiscController : MonoBehaviour
 
             // Trova il quadrante in cui si trova il mouse
             int quadrant = GetQuadrant(mouseWorldPosition);
+            GetPolygonCenter();
 
             // Calcola la direzione del lancio in base al quadrante
             Vector3 direction = CalculateDirection(quadrant, mouseWorldPosition);
@@ -107,8 +110,9 @@ public class DiscController : MonoBehaviour
 
     private void AdjustRotation()
     {
-        currentRotationZ = 1f;
-        discPosition.Rotate(0,0, currentRotationZ,Space.Self);
+        currentRotationY = -1f;
+        discPosition.Rotate(0,currentRotationY,0,Space.Self);
+        
 
     }
 
@@ -137,16 +141,16 @@ public class DiscController : MonoBehaviour
         switch (quadrant)
         {
             case 1:
-                direction = (mousePosition - center).normalized;
+                direction = (center-mousePosition).normalized;
                 break;
             case 2:
-                direction = (mousePosition - center).normalized;
+                direction = (center-mousePosition).normalized;
                 break;
             case 3:
-                direction = (mousePosition - center).normalized;
+                direction = (center-mousePosition).normalized;
                 break;
             case 4:
-                direction = (mousePosition - center).normalized;
+                direction =( center-mousePosition).normalized;
                 break;
         }
 
