@@ -13,12 +13,12 @@ public class InputRegistrationState : StateMachineState
     public override void Enter()
     {
         Debug.Log("Waiting for player input...");
-        //TODO: abilità l'input sistem a 
+        GameManager.SetControls(true);
     }
 
     public override void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // TODO: Da cambiare
+        if (Input.anyKey) // TODO: Da cambiare
         {
             gameManager.SetState(new PlayerTurnState(gameManager));
         }

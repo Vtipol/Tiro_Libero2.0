@@ -12,15 +12,14 @@ public class PuckMovingState : StateMachineState
     public override void Enter()
     {
         Debug.Log("Puck is Moving");
-        //TODO: disabilità input giocatore
+        GameManager.SetControls(false);
     }
-    public override void Update()
+    public override void Update()  
     {
         if (Puck.PuckStop()) // Rimpiazza con Check
         {
-            Debug.Log(TurnManager.CurrentTurn);
             TurnManager.SwitchTurn(); // Cambio turni
-            gameManager.SetState(new InputRegistrationState(gameManager));
+            gameManager.SetState(new SetupBoardState(gameManager));
             Debug.Log(TurnManager.CurrentTurn);
         }
     }

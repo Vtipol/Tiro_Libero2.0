@@ -12,12 +12,13 @@ public class PlayerTurnState : StateMachineState
     public override void Enter()
     {
         Debug.Log("Player's turn...");
-        // TODO:abilita controllo giocatore
+        GameManager.SetBuildBoardControls(false);
+        GameManager.SetControls(true);
     }
 
     public override void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K)) // TODO: cambiare input
+        if (Input.anyKeyDown) // TODO: cambiare con lancio di disco
         {
             gameManager.SetState(new PuckMovingState(gameManager));
         }

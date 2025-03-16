@@ -12,10 +12,10 @@ public class SetupBoardState : StateMachineState
 
     public override void Enter()
     {
-        Debug.Log("Setting up the board...");
-        // TODO: mettere Puck, Resetta lo score
+        Debug.Log($"{TurnManager.CurrentTurn} is Setting up the board...");
+        GameManager.SetBuildBoardControls(true);
                                 //Muovi a VVV dopo il setup 
-        gameManager.SetState(new InputRegistrationState(gameManager));
+        gameManager.SetState(new PlayerTurnState(gameManager));
     }
 }
 

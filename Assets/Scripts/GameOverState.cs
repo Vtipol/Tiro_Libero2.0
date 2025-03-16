@@ -4,10 +4,18 @@ using UnityEngine;
 public class GameOverState : StateMachineState
 {
     private GameManager gameManager;
-
+    public static float GameSet = 5;
     public GameOverState(GameManager manager)
     {
         gameManager = manager;
+    }
+
+    public override void Update()
+    {
+        if (TurnManager.NumberOfCycles == GameSet)
+        {
+            gameManager.SetState(new GameOverState(gameManager));
+        }
     }
 
     public override void Enter()
