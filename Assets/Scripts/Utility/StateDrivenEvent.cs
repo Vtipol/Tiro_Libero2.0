@@ -7,9 +7,9 @@ public class StateDrivenEvent : MonoBehaviour
 {
     [SerializeField] private List<StateEvent> _stateEventsList;
 
-    private Dictionary<State, UnityEvent> _stateEvents;
+    private Dictionary<MachineState, UnityEvent> _stateEvents;
 
-    private State _currentState;
+    private MachineState _currentState;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class StateDrivenEvent : MonoBehaviour
         _stateEvents[_currentState].Invoke();
     }
 
-    public void SetState(State state)
+    public void SetState(MachineState state)
     {
         _currentState = state;
     }
