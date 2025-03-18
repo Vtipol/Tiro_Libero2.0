@@ -367,10 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cf10db188859a044866c4d95b9c0100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rbPucks:
-  - {fileID: 370319826}
-  - {fileID: 1691236523}
-  - {fileID: 395498508}
+  _rbPucks: []
   _center: {fileID: 944866057}
   _radius: 2
   _triggersLayerMask:
@@ -909,11 +906,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6700354455681140559, guid: 726f1c124ac931e43bda84cfd0092136, type: 3}
   m_PrefabInstance: {fileID: 332821231}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &370319826 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8268575460813171278, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
-  m_PrefabInstance: {fileID: 2372805741965760650}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &390462929
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,11 +959,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &395498508 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8268575460813171278, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
-  m_PrefabInstance: {fileID: 1554906369}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &503075707
 GameObject:
   m_ObjectHideFlags: 0
@@ -2066,6 +2053,7 @@ MonoBehaviour:
   _followCamera: {fileID: 1662382037}
   _rotationSpeed: 100
   PullSpeed: 10
+  _goingBack: 0
 --- !u!114 &929811902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2294,6 +2282,10 @@ PrefabInstance:
       propertyPath: tremblingSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
+      propertyPath: DisableColliders
+      value: 
+      objectReference: {fileID: 2047967131}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: StationaryCamera
       value: 
@@ -3930,11 +3922,6 @@ MonoBehaviour:
   maxZoom: 2.24
   zoomSpeed: 7
   heightOffset: 2
---- !u!54 &1691236523 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 8268575460813171278, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
-  m_PrefabInstance: {fileID: 174731253}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1720596538
 GameObject:
   m_ObjectHideFlags: 0

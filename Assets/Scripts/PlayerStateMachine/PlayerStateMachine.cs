@@ -12,6 +12,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public StationaryCamera StationaryCamera;
     public FollowPuck FollowPuck;
+    public DisableColliders DisableColliders;
 
     public PuckController puckController;
     public LayerMask puckLayerMask;

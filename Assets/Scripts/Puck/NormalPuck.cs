@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NormalPuck : Puck
+public class NormalPuck : PuckAbstract
 {
     // Inherits everything from Puck without changes
 }

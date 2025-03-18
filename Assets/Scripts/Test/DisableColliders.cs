@@ -14,6 +14,8 @@ public class DisableColliders : MonoBehaviour
 
     [SerializeField] private LayerMask _triggersLayerMask;
 
+    private Vector2 _centerPosition;
+
     #endregion
 
     #region MonoBehaviour Lifecycle Methods
@@ -21,7 +23,7 @@ public class DisableColliders : MonoBehaviour
     // Called when the script is initialized
     private void Awake()
     {
-        
+        _centerPosition = new Vector2(_center.transform.position.x, _center.transform.position.z);
     }
 
     // Called when the script is initialized
@@ -45,17 +47,26 @@ public class DisableColliders : MonoBehaviour
     // Called every frame
     private void Update()
     {
+        List<int> pucksToRemove = new();
+
         for (int i = 0; i < _rbPucks.Count; i++)
         {
-            Transform transform = _rbPucks[i].transform;
-            if (Vector3.Distance(transform.position, _center.position) > _radius)
+            Vector2 _puckPosition = new(_rbPucks[i].position.x, _rbPucks[i].position.z);
+            if (Vector2.Distance(_puckPosition, _centerPosition) > _radius)
             {
+                Debug.Log("AHHAHAH");
                 _rbPucks[i].excludeLayers = ~_triggersLayerMask.value;
+                pucksToRemove.Add(i);
             }
             else
-            { 
+            {
                 _rbPucks[i].excludeLayers = 0;
             }
+        }
+
+        for (int i = 0; i < pucksToRemove.Count; i++)
+        {
+            _rbPucks.RemoveAt(pucksToRemove[i]);
         }
     }
 
@@ -113,6 +124,16 @@ public class DisableColliders : MonoBehaviour
     #endregion
 
     #region Custom Methods
+
+    public void AddRb(Rigidbody rb)
+    {
+        _rbPucks.Add(rb);
+    }
+
+    public void RemoveRb(Rigidbody rb)
+    {
+        _rbPucks.Remove(rb);
+    }
 
     #endregion
 }

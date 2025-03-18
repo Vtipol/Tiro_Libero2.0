@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WeightPuck : Puck
+public class WeightPuck : PuckAbstract
 {
     protected override void ApplyPuckSettings()
     {

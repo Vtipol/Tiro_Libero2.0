@@ -17,7 +17,7 @@ public class StationaryCamera : MonoBehaviour
     private bool _isPulling = false;
     public float PullSpeed = 1f;
 
-    private bool _goingBack;
+    public bool _goingBack;
 
     private Vector3 _startPosition;
     private float _ortoLensStartSize;

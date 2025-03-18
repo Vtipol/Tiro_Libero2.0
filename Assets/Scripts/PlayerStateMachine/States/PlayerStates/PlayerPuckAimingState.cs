@@ -69,7 +69,7 @@ public class PlayerPuckAimingState : State
         {
             Shoot();
         }
-        if(aiming)
+        if (aiming)
         {
             float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
 
@@ -86,9 +86,9 @@ public class PlayerPuckAimingState : State
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
             if (_owner.invertedAim)
-                _owner.lineRenderer.SetPosition(1, new Vector3(puckToThrowRB.transform.position.x*2 - mousePos.x + tremblingOffset.x, 0,puckToThrowRB.transform.position.z*2 - mousePos.z + tremblingOffset.z));
+                _owner.lineRenderer.SetPosition(1, new Vector3(puckToThrowRB.transform.position.x * 2 - mousePos.x + tremblingOffset.x, 0, puckToThrowRB.transform.position.z * 2 - mousePos.z + tremblingOffset.z));
             else
-            _owner.lineRenderer.SetPosition(1, new Vector3(mousePos.x + tremblingOffset.x, 0, mousePos.z + tremblingOffset.z));
+                _owner.lineRenderer.SetPosition(1, new Vector3(mousePos.x + tremblingOffset.x, 0, mousePos.z + tremblingOffset.z));
         }
     }
 
@@ -136,13 +136,15 @@ public class PlayerPuckAimingState : State
 
             Debug.Log("Direzione di sparo: " + directionThrowXZ);
 
-            _owner.StationaryCamera.StopPulling();
             _owner.FollowPuck.SetPuck(_owner.puckToThrow);
 
             if (puckToThrowRB != null)
             {
                 //applica la forza al rb
                 puckToThrowRB.AddForce(new Vector3(directionThrowXZ.x, 0, directionThrowXZ.y) * _owner.throwForce, ForceMode.Impulse);
+
+                // Adding the puck so we can make it fall when exiting the board
+                _owner.DisableColliders.AddRb(_owner.puckToThrow.GetComponent<Rigidbody>());
                 _owner.SelectablePuckTT.throwed = true;
                 _owner.puckToThrow = null;
                 _owner.SelectablePuckTT.GetComponent<Collider>().enabled = false;

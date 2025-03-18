@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BigPuck : Puck
+public class BigPuck : PuckAbstract
 {
     protected override void ApplyPuckSettings()
     {

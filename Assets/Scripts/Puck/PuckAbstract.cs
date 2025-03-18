@@ -1,7 +1,7 @@
 using UnityEngine;
 using System; // Required for Events
 
-public abstract class Puck : MonoBehaviour
+public abstract class PuckAbstract : MonoBehaviour
 {
     [SerializeField] protected PuckData _puckData;
     protected Rigidbody _rigidbody;
