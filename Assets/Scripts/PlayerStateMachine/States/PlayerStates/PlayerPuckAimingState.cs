@@ -72,6 +72,9 @@ public class PlayerPuckAimingState : State
         if(aiming)
         {
             float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
+
+            _owner.StationaryCamera.PullOut(distance);
+
             Debug.Log("distanzaaaa : " + distance);
             if (distance > _owner.tremblingThreshold)
             {
@@ -132,6 +135,9 @@ public class PlayerPuckAimingState : State
                 directionThrowXZ = (CardinalXZEnd - CardinalXZStart);
 
             Debug.Log("Direzione di sparo: " + directionThrowXZ);
+
+            _owner.StationaryCamera.StopPulling();
+            _owner.FollowPuck.SetPuck(_owner.puckToThrow);
 
             if (puckToThrowRB != null)
             {

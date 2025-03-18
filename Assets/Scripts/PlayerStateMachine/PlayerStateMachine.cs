@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -8,6 +9,9 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject puckSelected;
     public GameObject puckToThrow;
     public PuckSelectable SelectablePuckTT;
+
+    public StationaryCamera StationaryCamera;
+    public FollowPuck FollowPuck;
 
     public PuckController puckController;
     public LayerMask puckLayerMask;

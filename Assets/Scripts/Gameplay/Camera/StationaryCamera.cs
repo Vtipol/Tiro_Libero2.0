@@ -63,7 +63,9 @@ public class StationaryCamera : MonoBehaviour
     {
         if (_isPulling)
         {
-            ZoomOut(PullSpeed);
+            float zoomAmount = _distance - _previousDistance;           
+
+            ZoomOut(zoomAmount);
         }
 
         if (_goingBack)
@@ -183,9 +185,13 @@ public class StationaryCamera : MonoBehaviour
         _rotating = true;
     }
 
+    private float _distance = 0f;
+    private float _previousDistance = 0f;
 
-    public void PullOut()
+    public void PullOut(float distance)
     {
+        _previousDistance = _distance;
+        _distance = distance;
         _ortoLensStartSize = _boardCamera.Lens.OrthographicSize;
         _startPosition = _boardCamera.transform.position;
         _isPulling = true;
@@ -203,15 +209,15 @@ public class StationaryCamera : MonoBehaviour
     {
         Vector3 topBoardWorldPos = _playersTransform[GetOppositePlayer()].position; // Top of the board
 
-        // Increase orthographic size
-        _boardCamera.Lens.OrthographicSize += zoomAmount * Time.fixedDeltaTime;
+        // adjust orthographic size
+        _boardCamera.Lens.OrthographicSize += zoomAmount * PullSpeed * Time.fixedDeltaTime;
         //_camera.Lens.OrthographicSize = Mathf.Clamp(_camera.Lens.OrthographicSize, minOrthoSize, maxOrthoSize);
 
         // Recalculate new top position
         //Vector3 newTopScreenPos = _camera.WorldToScreenPoint(topBoardWorldPos);
 
         // Adjust camera position to keep top part 
-        _boardCamera.transform.position += -_boardCamera.transform.up * zoomAmount / 50;
+        _boardCamera.transform.position += -_boardCamera.transform.up * zoomAmount * PullSpeed / 50;
     }
 
     private void ZoomIn(float zoomAmount)

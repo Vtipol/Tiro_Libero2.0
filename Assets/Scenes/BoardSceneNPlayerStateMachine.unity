@@ -1420,6 +1420,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa8ba3e0f4371304290f1e464cff61bc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2047967130}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aa8ba3e0f4371304290f1e464cff61bc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2047967131}
   m_SourcePrefab: {fileID: 100100000, guid: aa8ba3e0f4371304290f1e464cff61bc, type: 3}
 --- !u!4 &535217662 stripped
 Transform:
@@ -2062,7 +2065,7 @@ MonoBehaviour:
   _boardCamera: {fileID: 929811899}
   _followCamera: {fileID: 1662382037}
   _rotationSpeed: 100
-  PullSpeed: 0.5
+  PullSpeed: 10
 --- !u!114 &929811902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2269,8 +2272,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2999807741554821694, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
+      propertyPath: FollowPuck
+      value: 
+      objectReference: {fileID: 1662382039}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: throwForce
       value: 4.5
@@ -2287,6 +2294,10 @@ PrefabInstance:
       propertyPath: tremblingSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
+      propertyPath: StationaryCamera
+      value: 
+      objectReference: {fileID: 929811901}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: tremblingAmplitude
       value: 0.5
@@ -3862,7 +3873,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 543450653329966628}
+    TrackingTarget: {fileID: 0}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -3907,12 +3918,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662382036}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 129a69bcd87e55e48ae146b833519c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _puck: {fileID: 919132149391531166}
+  _puck: {fileID: 0}
   _followCamera: {fileID: 1662382037}
   _boardCamera: {fileID: 929811899}
   minZoom: 1
@@ -4768,6 +4779,24 @@ MonoBehaviour:
   texture: {fileID: 2800000, guid: 560a50d2ce15daf4d95f450a211e3aad, type: 3}
   radius: 1
   textureInfoColorIncrement: 10
+--- !u!114 &2047967131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047967129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cf10db188859a044866c4d95b9c0100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rbPucks: []
+  _center: {fileID: 944866057}
+  _radius: 2
+  _triggersLayerMask:
+    serializedVersion: 2
+    m_Bits: 16
 --- !u!1 &2127236179
 GameObject:
   m_ObjectHideFlags: 0
