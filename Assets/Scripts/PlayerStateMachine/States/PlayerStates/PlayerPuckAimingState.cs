@@ -119,6 +119,7 @@ public class PlayerPuckAimingState : State
     {
         if (_owner.puckToThrow != null)
         {
+            aiming = false;
             endMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
             CardinalXZEnd = new Vector2(endMousePosition.x, endMousePosition.z);
 

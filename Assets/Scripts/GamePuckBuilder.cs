@@ -1,6 +1,7 @@
 using TMPro;
 using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public enum PuckType
@@ -16,27 +17,28 @@ public class GamePuckBuilder : MonoBehaviour
     private int weightPucksSelected = 1;
     private int bigPucksSelected = 1;
     [Header("Buttons")]
-    public Button addNormalPuck;
-    public Button removeNormalPuck;
-    public Button addWeightPuck;
-    public Button removeWeightPuck;
-    public Button addBigPuck;
-    public Button removeBigPuck;
+    [SerializeField] private Button addNormalPuck;
+    [SerializeField] private Button removeNormalPuck;
+    [SerializeField] private Button addWeightPuck;
+    [SerializeField] private Button removeWeightPuck;
+    [SerializeField] private Button addBigPuck;
+    [SerializeField] private Button removeBigPuck;
 
-    public Button confirmButton;
+    [SerializeField] private Button confirmButton;
     [Header("TMP_Text")]
-    public TMP_Text normalPucksText;
-    public TMP_Text weightPucksText;
-    public TMP_Text bigPucksText;
+    [SerializeField] private TMP_Text normalPucksText;
+    [SerializeField] private TMP_Text weightPucksText;
+    [SerializeField] private TMP_Text bigPucksText;
 
     [Header("Type Of Pucks")]
-    public GameObject normalPuckPrefab;
-    public GameObject weightPuckPrefab;
-    public GameObject bigPuckPrefab;
-
+    [SerializeField] private GameObject normalPuckPrefab;
+    [SerializeField] private GameObject weightPuckPrefab;
+    [SerializeField] private GameObject bigPuckPrefab;
+    [Space]
     public int maxPucks = 7;
     public Transform[] puckSpawnPoints;
     private int puckSpawnIndex = 0;
+    public UnityEvent pucksBuilded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -87,19 +89,23 @@ public class GamePuckBuilder : MonoBehaviour
         //Debug.Log("ho confermato e ho "+ maxPucks+ " Pucks ^^");
         for(int i = 0; i<normalPucksSelected; i++)
         {
-            Instantiate(normalPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            Instantiate(normalPuckPrefab, puckSpawnPoints[puckSpawnIndex].transform.position, Quaternion.identity);
+            //Debug.Log("spawnati normal puck");
             puckSpawnIndex++;
         }
         for (int i = 0; i < weightPucksSelected; i++)
         {
-            Instantiate(weightPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            Instantiate(weightPuckPrefab, puckSpawnPoints[puckSpawnIndex].transform.position, Quaternion.identity);
+            //Debug.Log("spawnati normal weight");
             puckSpawnIndex++;
         }
         for (int i = 0; i < bigPucksSelected; i++)
         {
-            Instantiate(bigPuckPrefab, puckSpawnPoints[i].transform.position, Quaternion.identity);
+            Instantiate(bigPuckPrefab, puckSpawnPoints[puckSpawnIndex].transform.position, Quaternion.identity);
+            //Debug.Log("spawnati normal big");
             puckSpawnIndex++;
         }
+        pucksBuilded.Invoke();
     }
 
     private void AddRemovePuckType(PuckType _puckType, bool _AddRemove)

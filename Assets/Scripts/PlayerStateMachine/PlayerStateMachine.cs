@@ -18,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool invertedThrow;
     public float throwForce = 2f;
 
+    //public float sensibilityAim = 1f;
     public float trembling;
 
     public float minDistanceToThrow;

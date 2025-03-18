@@ -52,15 +52,17 @@ MonoBehaviour:
   puckController: {fileID: 0}
   puckLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   lineRenderer: {fileID: 1696646042882126217}
   invertedAim: 1
   invertedThrow: 1
-  throwForce: 0.5
+  throwForce: 3
   trembling: 0
   minDistanceToThrow: 0
   MaxDistanceToThrow: 0
-  distanceToTrembling: 0
+  tremblingThreshold: 2.5
+  tremblingAmplitude: 0.5
+  tremblingSpeed: 5
   maxPucks: 7
   myPlacedPucks: 0
   place1AtTime: 1
