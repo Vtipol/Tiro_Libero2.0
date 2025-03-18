@@ -14,8 +14,8 @@ public class FollowPuck : MonoBehaviour
 
     public float minZoom = 1f; // Closest zoom level
     public float maxZoom = 4f; // Default zoom level
-    public float zoomSpeed = 5f;
-    public float heightOffset = 2f; // Adjust this to keep the top part fixed
+    public float zoomSpeed = 5f; // How fast to zoom in/out
+    public float heightOffset = 2f; // How much to shift the camera upwards
 
     private Vector3 initialCamPosition;
     #endregion
@@ -31,13 +31,6 @@ public class FollowPuck : MonoBehaviour
     // Called when the script is initialized
     private void Start()
     {
-        _puckTransform = _puck.transform;
-        _puckRb = _puck.GetComponent<Rigidbody>();
-
-        if (_followCamera)
-        {
-            initialCamPosition = _followCamera.transform.position;
-        }
     }
 
     // Called when the object is enabled
@@ -55,7 +48,11 @@ public class FollowPuck : MonoBehaviour
     // Called every frame
     private void Update()
     {
+        if (!_puck) return;
+
         float zoomAmount = _puckRb.linearVelocity.magnitude / 2;
+
+        Debug.Log(zoomAmount);
 
 
         zoomAmount = Mathf.Clamp(zoomAmount, 0f, maxZoom);
@@ -132,6 +129,14 @@ public class FollowPuck : MonoBehaviour
     #endregion
 
     #region Custom Methods
+
+    public void SetPuck(GameObject puck)
+    { 
+        _puck = puck;
+        _puckRb = _puck.GetComponent<Rigidbody>();
+        _puckTransform = _puck.transform;
+        _followCamera.Follow = _puckTransform;
+    }
 
     #endregion
 }

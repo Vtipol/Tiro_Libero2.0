@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerStateMachine : MonoBehaviour
@@ -9,6 +10,9 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject puckToThrow;
     public PuckSelectable SelectablePuckTT;
 
+    public StationaryCamera StationaryCamera;
+    public FollowPuck FollowPuck;
+
     public PuckController puckController;
     public LayerMask puckLayerMask;
 
@@ -18,6 +22,7 @@ public class PlayerStateMachine : MonoBehaviour
     public bool invertedThrow;
     public float throwForce = 2f;
 
+    //public float sensibilityAim = 1f;
     public float trembling;
 
     public float minDistanceToThrow;
