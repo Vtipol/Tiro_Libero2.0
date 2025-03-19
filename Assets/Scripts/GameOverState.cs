@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // abbastanza ovvio, il gioco è finito
 public class GameOverState : StateMachineState
 {
@@ -22,6 +23,7 @@ public class GameOverState : StateMachineState
     {
         Debug.Log("Game Over!");
         //TODO: mostra risultati, punteggio, ritorna al main menu, ecc. 
+        SceneManager.LoadScene("Main Menu");
     }
 }
 
