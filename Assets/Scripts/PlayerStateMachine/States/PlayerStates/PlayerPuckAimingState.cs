@@ -36,6 +36,7 @@ public class PlayerPuckAimingState : State
     {
         Debug.Log("Sto entrando in PlayerPuckAimingState");
         _owner.FallingCamera.CurrentFocusedPuck = _owner.puckSelected;
+        _owner.StationaryCamera.StartPull();
     }
 
     public override void OnExitState()
@@ -93,7 +94,7 @@ public class PlayerPuckAimingState : State
 
             float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
 
-            _owner.StationaryCamera.PullOut(distance);
+            _owner.StationaryCamera.UpdatePullDistance(distance);
         }
     }
 

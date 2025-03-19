@@ -63,13 +63,13 @@ public class StationaryCamera : MonoBehaviour
     {
         if (_isPulling)
         {
-            float zoomAmount = _distance - _previousDistance;           
+            float zoomAmount = _distance - _previousDistance;
 
             Zoom(zoomAmount);
         }
 
         if (_goingBack)
-        { 
+        {
             ZoomIn(PullSpeed * 5);
         }
 
@@ -194,16 +194,21 @@ public class StationaryCamera : MonoBehaviour
     private float _distance = 0f;
     private float _previousDistance = 0f;
 
-    public void PullOut(float distance)
+    public void StartPull()
+    {
+        _isPulling = true;
+        _ortoLensStartSize = _boardCamera.Lens.OrthographicSize;
+        _startPosition = _boardCamera.transform.position;
+    }
+
+    public void UpdatePullDistance(float distance)
     {
         _previousDistance = _distance;
         _distance = distance;
-        _ortoLensStartSize = _boardCamera.Lens.OrthographicSize;
-        _startPosition = _boardCamera.transform.position;
-        _isPulling = true;
     }
 
-    public void StopPulling() {
+    public void StopPulling()
+    {
         _isPulling = false;
         _goingBack = true;
 
@@ -233,7 +238,7 @@ public class StationaryCamera : MonoBehaviour
     /// <param name="zoomAmount"></param>
     private void ZoomIn(float zoomAmount)
     {
-        // Increase orthographic size
+        // Decreases orthographic size
         _boardCamera.Lens.OrthographicSize -= zoomAmount * Time.fixedDeltaTime;
 
         // Adjust camera position to keep top part
@@ -251,7 +256,8 @@ public class StationaryCamera : MonoBehaviour
     /// Returns the index of the opposite player, used for pulling the camera
     /// </summary>
     /// <returns></returns>
-    private int GetOppositePlayer() {
+    private int GetOppositePlayer()
+    {
         if (_playersTransform.Length == 2)
         {
             return _currentPlayerIndex == 0 ? 1 : 0;
@@ -259,7 +265,7 @@ public class StationaryCamera : MonoBehaviour
         else
         {
             if (_currentPlayerIndex < 2)
-            { 
+            {
                 return _currentPlayerIndex + 2;
             }
             else

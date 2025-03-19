@@ -1,3 +1,4 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ public class FallingCamera : MonoBehaviour
     [SerializeField] private CinemachineCamera[] _fallingCameras;
     [SerializeField] private CinemachineCamera _boardCamera;
     [SerializeField] private CinemachineCamera _followCamera;
+
+    // Event to be triggered when the puck fall animation ends
+    // used so other scripts can remove the puck
+    public Action<GameObject> OnPuckFallAnimationEnded;
 
     private int _fallingCameraIndex;
     private bool _isFalling = false;
@@ -129,6 +134,7 @@ public class FallingCamera : MonoBehaviour
 
     private void SwitchToStationaryCamera()
     {
+        OnPuckFallAnimationEnded?.Invoke(CurrentFocusedPuck);
         // set the board camera to be the main camera
         _fallingCameras[_fallingCameraIndex].Priority = 0;
         _boardCamera.Priority = 15;
