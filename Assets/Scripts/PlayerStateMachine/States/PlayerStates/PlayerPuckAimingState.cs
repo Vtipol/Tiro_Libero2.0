@@ -13,7 +13,7 @@ public class PlayerPuckAimingState : State
     private Rigidbody puckToThrowRB;
     private Vector2 directionThrowXZ;
 
-    private Vector3 tremblingOffset;
+    //private Vector3 tremblingOffset;
 
     private bool aiming;
 
@@ -35,6 +35,8 @@ public class PlayerPuckAimingState : State
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckAimingState");
+        _owner.FallingCamera.CurrentFocusedPuck = _owner.puckSelected;
+        _owner.StationaryCamera.StartPull();
     }
 
     public override void OnExitState()
@@ -69,29 +71,34 @@ public class PlayerPuckAimingState : State
         {
             Shoot();
         }
+
+        //controllo che muove la mira mentre sto caricando
         if (aiming)
         {
-            float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
+            
 
-            _owner.StationaryCamera.PullOut(distance);
+            //Debug.Log("distanzaaaa : " + distance);
+            //if (distance > _owner.tremblingThreshold)
+            //{
+            //    float time = Time.time * _owner.tremblingSpeed;
+            //    float angle = time % (2 * Mathf.PI);
+            //    tremblingOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * _owner.tremblingAmplitude;
 
-            Debug.Log("distanzaaaa : " + distance);
-            if (distance > _owner.tremblingThreshold)
-            {
-                float time = Time.time * _owner.tremblingSpeed;
-                float angle = time % (2 * Mathf.PI);
-                tremblingOffset = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * _owner.tremblingAmplitude;
-
-            }
+            //}
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
             if (_owner.invertedAim)
-                _owner.lineRenderer.SetPosition(1, new Vector3(puckToThrowRB.transform.position.x * 2 - mousePos.x + tremblingOffset.x, 0, puckToThrowRB.transform.position.z * 2 - mousePos.z + tremblingOffset.z));
+                _owner.lineRenderer.SetPosition(1, new Vector3(puckToThrowRB.transform.position.x * 2 - mousePos.x , 0, puckToThrowRB.transform.position.z * 2 - mousePos.z ));
             else
-                _owner.lineRenderer.SetPosition(1, new Vector3(mousePos.x + tremblingOffset.x, 0, mousePos.z + tremblingOffset.z));
+                _owner.lineRenderer.SetPosition(1, new Vector3(mousePos.x , 0, mousePos.z ));
+
+            float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
+
+            _owner.StationaryCamera.UpdatePullDistance(distance);
         }
     }
 
+    //funzione fatta alla premuta del mouse che è il punto di inizio di mira
     public void Charge()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -118,6 +125,7 @@ public class PlayerPuckAimingState : State
         }
     }
 
+    //funzione fatta al rilascio del mouse e che calcola la direzione dove lanciare il puck e applica la direzione di forza
     public void Shoot()
     {
         if (_owner.puckToThrow != null)
