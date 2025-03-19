@@ -10,7 +10,7 @@ public abstract class PuckAbstract : MonoBehaviour
     private bool _hasFlown = false;
 
     // Events
-    public event Action PuckStop;
+    public static event Action PuckStop; // reso evento statico per renderlo più accessibile - vittorio
     public event Action PuckFly;
 
     protected virtual void Awake()
