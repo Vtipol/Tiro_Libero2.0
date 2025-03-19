@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// Simply gives force to the object, NOT USED
+/// </summary>
+
 public class GiveForce : MonoBehaviour
 {
     #region Variables

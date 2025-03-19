@@ -81,18 +81,22 @@ public class FallingCamera : MonoBehaviour
     }
 
     // Called when a trigger collider enters another collider
+    // TODO: only trigger if the falling puck is the one thrown by the player
     private void OnTriggerEnter(Collider other)
     {
         if (_isFalling) return;
 
         _isFalling = true;
 
-        Debug.Log(other.name);
+        // find the closest camera to the puck and tell it to follow it
         _fallingCameraIndex = FindClosestCamera(other.transform);
         _fallingCameras[_fallingCameraIndex].Follow = other.transform;
+
+        // set the falling camera to be the main camera
         _fallingCameras[_fallingCameraIndex].Priority = 15;
         _boardCamera.Priority = 10;
         _followCamera.Priority = 5;
+
         Invoke(nameof(SwitchToStationaryCamera), 2f);
     }
 
@@ -113,6 +117,7 @@ public class FallingCamera : MonoBehaviour
 
     private void SwitchToStationaryCamera()
     {
+        // set the board camera to be the main camera
         _fallingCameras[_fallingCameraIndex].Priority = 0;
         _boardCamera.Priority = 15;
         _followCamera.Priority = 5;

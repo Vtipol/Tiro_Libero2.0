@@ -50,29 +50,17 @@ public class FollowPuck : MonoBehaviour
     {
         if (!_puck) return;
 
+        // zoom in/out based on puck velocity
+
         float zoomAmount = _puckRb.linearVelocity.magnitude / 2;
 
         Debug.Log(zoomAmount);
 
-
         zoomAmount = Mathf.Clamp(zoomAmount, 0f, maxZoom);
 
-
-        ////_followCamera.Lens.OrthographicSize = Mathf.Clamp();
-        //// Get puck's normalized forward progress (assuming Y+ is forward)
-        //float progress = Mathf.InverseLerp(-2f, 2f, _puckTransform.forward.z); // Adjust -5 and 5 to your scene scale
-
-        //Debug.Log(puck.forward.z);
-
-        // Compute new zoom level
         float newZoom = Mathf.Lerp(maxZoom, minZoom, Mathf.InverseLerp(0f, maxZoom, zoomAmount));
-        //Debug.Log(newZoom);
 
         _followCamera.Lens.OrthographicSize = newZoom;
-        //// Adjust camera position to shift upwards
-        //Vector3 camPos = initialCamPosition;
-        //camPos.z += heightOffset * progress;
-        //_followCamera.transform.position = camPos;
     }
     
     // Called on every physics update (Fixed timestep)
@@ -130,6 +118,10 @@ public class FollowPuck : MonoBehaviour
 
     #region Custom Methods
 
+    /// <summary>
+    /// Set the puck to follow, used when we have a new puck
+    /// </summary>
+    /// <param name="puck"></param>
     public void SetPuck(GameObject puck)
     { 
         _puck = puck;

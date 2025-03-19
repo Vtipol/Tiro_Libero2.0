@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Prevents pucks from colliding with anything except the out triggers
+/// </summary>
 public class DisableColliders : MonoBehaviour
 {
     #region Variables
@@ -47,23 +50,34 @@ public class DisableColliders : MonoBehaviour
     // Called every frame
     private void Update()
     {
+        ExcludePucksWhenOutside();
+    }
+
+    private void ExcludePucksWhenOutside()
+    {
+        // Keeps track of the pucks that we have to remove
+        // to avoid changing the list while iterating
         List<int> pucksToRemove = new();
 
         for (int i = 0; i < _rbPucks.Count; i++)
         {
             Vector2 _puckPosition = new(_rbPucks[i].position.x, _rbPucks[i].position.z);
+            // checks if the puck is outside the radius
             if (Vector2.Distance(_puckPosition, _centerPosition) > _radius)
             {
-                Debug.Log("AHHAHAH");
+                // excludes the puck from colliding with anything except the triggers
                 _rbPucks[i].excludeLayers = ~_triggersLayerMask.value;
                 pucksToRemove.Add(i);
             }
             else
             {
+                // includes the puck in all layers
                 _rbPucks[i].excludeLayers = 0;
             }
         }
 
+        // finally removes the pucks that are outside the radius
+        // from the list that keeps track of them when inside the radius
         for (int i = 0; i < pucksToRemove.Count; i++)
         {
             _rbPucks.RemoveAt(pucksToRemove[i]);
