@@ -2268,7 +2268,7 @@ PrefabInstance:
       objectReference: {fileID: 1662382039}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: throwForce
-      value: 4.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: puckController
@@ -2296,7 +2296,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: tremblingThreshold
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3391405650306825675, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: m_IsActive

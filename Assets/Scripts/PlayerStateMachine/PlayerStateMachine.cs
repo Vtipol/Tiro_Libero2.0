@@ -19,18 +19,19 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("Aim Var")]
     public LineRenderer lineRenderer;
+    public float redLineThreshold;
     public bool invertedAim;
     public bool invertedThrow;
     public float throwForce = 2f;
 
-    //public float sensibilityAim = 1f;
-    public float trembling;
+    public float sensibilityAim = 1f;
+    //public float trembling;
 
-    public float minDistanceToThrow;
-    public float MaxDistanceToThrow;
-    public float tremblingThreshold = 2.5f;
-    public float tremblingAmplitude = 0.5f;
-    public float tremblingSpeed = 5f;
+    //public float minDistanceToThrow;
+    //public float MaxDistanceToThrow;
+    //public float tremblingThreshold = 2.5f;
+    //public float tremblingAmplitude = 0.5f;
+    //public float tremblingSpeed = 5f;
 
     [Header("Player Var")]
     public int maxPucks = 7;
