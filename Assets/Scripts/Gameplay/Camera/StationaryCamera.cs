@@ -63,13 +63,13 @@ public class StationaryCamera : MonoBehaviour
     {
         if (_isPulling)
         {
-            float zoomAmount = _distance - _previousDistance;           
+            float zoomAmount = _distance - _previousDistance;
 
-            ZoomOut(zoomAmount);
+            Zoom(zoomAmount);
         }
 
         if (_goingBack)
-        { 
+        {
             ZoomIn(PullSpeed * 5);
         }
 
@@ -165,6 +165,12 @@ public class StationaryCamera : MonoBehaviour
         RotateToPlayer(_currentPlayerIndex);
     }
 
+    public void SetPlayer(int index)
+    {
+        _currentPlayerIndex = index;
+        RotateToPlayer(_currentPlayerIndex);
+    }
+
     private bool _rotating = false;
     private Vector3 _startRotation;
     private Vector3 _endRotation;
@@ -188,16 +194,21 @@ public class StationaryCamera : MonoBehaviour
     private float _distance = 0f;
     private float _previousDistance = 0f;
 
-    public void PullOut(float distance)
+    public void StartPull()
+    {
+        _isPulling = true;
+        _ortoLensStartSize = _boardCamera.Lens.OrthographicSize;
+        _startPosition = _boardCamera.transform.position;
+    }
+
+    public void UpdatePullDistance(float distance)
     {
         _previousDistance = _distance;
         _distance = distance;
-        _ortoLensStartSize = _boardCamera.Lens.OrthographicSize;
-        _startPosition = _boardCamera.transform.position;
-        _isPulling = true;
     }
 
-    public void StopPulling() {
+    public void StopPulling()
+    {
         _isPulling = false;
         _goingBack = true;
 
@@ -205,33 +216,32 @@ public class StationaryCamera : MonoBehaviour
         _followCamera.Priority = 15;
     }
 
-    private void ZoomOut(float zoomAmount)
+
+    /// <summary>
+    /// Zooms in/out the camera based on user's drag
+    /// </summary>
+    /// <param name="zoomAmount"></param>
+    private void Zoom(float zoomAmount)
     {
         Vector3 topBoardWorldPos = _playersTransform[GetOppositePlayer()].position; // Top of the board
 
-        // adjust orthographic size
+        // adjust orthographic size to zoom in/out
         _boardCamera.Lens.OrthographicSize += zoomAmount * PullSpeed * Time.fixedDeltaTime;
-        //_camera.Lens.OrthographicSize = Mathf.Clamp(_camera.Lens.OrthographicSize, minOrthoSize, maxOrthoSize);
 
-        // Recalculate new top position
-        //Vector3 newTopScreenPos = _camera.WorldToScreenPoint(topBoardWorldPos);
-
-        // Adjust camera position to keep top part 
-        _boardCamera.transform.position += -_boardCamera.transform.up * zoomAmount * PullSpeed / 50;
+        // Adjust camera position to keep top part of the board in view
+        _boardCamera.transform.position += PullSpeed * zoomAmount * -_boardCamera.transform.up / 50;
     }
 
+    /// <summary>
+    /// Goes back to original view
+    /// </summary>
+    /// <param name="zoomAmount"></param>
     private void ZoomIn(float zoomAmount)
     {
-        Vector3 topBoardWorldPos = _playersTransform[GetOppositePlayer()].position; // Top of the board
-
-        // Increase orthographic size
+        // Decreases orthographic size
         _boardCamera.Lens.OrthographicSize -= zoomAmount * Time.fixedDeltaTime;
-        //_camera.Lens.OrthographicSize = Mathf.Clamp(_camera.Lens.OrthographicSize, minOrthoSize, maxOrthoSize);
 
-        // Recalculate new top position
-        //Vector3 newTopScreenPos = _camera.WorldToScreenPoint(topBoardWorldPos);
-
-        // Adjust camera position to keep top part 
+        // Adjust camera position to keep top part
         _boardCamera.transform.position += _boardCamera.transform.up * zoomAmount / 50;
 
         if (Vector3.Distance(_boardCamera.transform.position, _startPosition) < 0.01f || _ortoLensStartSize >= _boardCamera.Lens.OrthographicSize)
@@ -242,7 +252,12 @@ public class StationaryCamera : MonoBehaviour
         }
     }
 
-    private int GetOppositePlayer() {
+    /// <summary>
+    /// Returns the index of the opposite player, used for pulling the camera
+    /// </summary>
+    /// <returns></returns>
+    private int GetOppositePlayer()
+    {
         if (_playersTransform.Length == 2)
         {
             return _currentPlayerIndex == 0 ? 1 : 0;
@@ -250,7 +265,7 @@ public class StationaryCamera : MonoBehaviour
         else
         {
             if (_currentPlayerIndex < 2)
-            { 
+            {
                 return _currentPlayerIndex + 2;
             }
             else
@@ -259,20 +274,5 @@ public class StationaryCamera : MonoBehaviour
             }
         }
     }
-
-    IEnumerator RotationTransition()
-    {
-        yield return new WaitWhile(EndedRotation);
-    }
-
-    private bool EndedRotation()
-    {
-        while (true)
-        {
-
-        }
-
-    }
-
     #endregion
 }
