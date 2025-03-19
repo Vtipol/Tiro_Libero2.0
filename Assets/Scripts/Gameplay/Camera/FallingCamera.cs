@@ -1,4 +1,3 @@
-using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -10,14 +9,8 @@ public class FallingCamera : MonoBehaviour
     [SerializeField] private CinemachineCamera _boardCamera;
     [SerializeField] private CinemachineCamera _followCamera;
 
-    // Event to be triggered when the puck fall animation ends
-    // used so other scripts can remove the puck
-    public Action<GameObject> OnPuckFallAnimationEnded;
-
     private int _fallingCameraIndex;
     private bool _isFalling = false;
-
-    public GameObject CurrentFocusedPuck;
 
     #endregion
 
@@ -88,32 +81,18 @@ public class FallingCamera : MonoBehaviour
     }
 
     // Called when a trigger collider enters another collider
-    // TODO: only trigger if the falling puck is the one thrown by the player
     private void OnTriggerEnter(Collider other)
     {
         if (_isFalling) return;
 
-        // Can't trigger fall if it's not the current focused puck
-        if (CurrentFocusedPuck != null && other.attachedRigidbody.gameObject == CurrentFocusedPuck)
-        {
-            Debug.LogWarning("LETSGO");
-        }
-        else
-        {
-            return;
-        }
-
         _isFalling = true;
 
-        // find the closest camera to the puck and tell it to follow it
+        Debug.Log(other.name);
         _fallingCameraIndex = FindClosestCamera(other.transform);
         _fallingCameras[_fallingCameraIndex].Follow = other.transform;
-
-        // set the falling camera to be the main camera
         _fallingCameras[_fallingCameraIndex].Priority = 15;
         _boardCamera.Priority = 10;
         _followCamera.Priority = 5;
-
         Invoke(nameof(SwitchToStationaryCamera), 2f);
     }
 
@@ -134,8 +113,6 @@ public class FallingCamera : MonoBehaviour
 
     private void SwitchToStationaryCamera()
     {
-        OnPuckFallAnimationEnded?.Invoke(CurrentFocusedPuck);
-        // set the board camera to be the main camera
         _fallingCameras[_fallingCameraIndex].Priority = 0;
         _boardCamera.Priority = 15;
         _followCamera.Priority = 5;
