@@ -58,7 +58,7 @@ public class PlayerPuckSelectionState : State
             SelectPuck();
         }
     }
-
+    //seleziono il puck che verrà mirato
     public void SelectPuck()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
