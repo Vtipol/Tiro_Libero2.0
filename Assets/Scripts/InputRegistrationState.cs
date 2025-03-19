@@ -13,7 +13,7 @@ public class InputRegistrationState : StateMachineState
     public override void Enter()
     {
         Debug.Log("Waiting for player input...");
-        GameManager.SetControls(true);
+        gameManager.SetControls(true);
     }
 
     public override void Update()

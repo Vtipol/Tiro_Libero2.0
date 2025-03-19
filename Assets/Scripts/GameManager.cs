@@ -1,15 +1,16 @@
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class GameManager : Singleton<GameManager>
 {
     private StateMachine stateMachine;
+    private MyInputActions inputActions;
     public static bool ControlsEnabled { get; private set; } = false;
-    public static bool BuildBoardControls { get; private set; } = false;
+    //public static bool BuildBoardControls { get; private set; } = false;
     private void Start()
     {
         stateMachine = new StateMachine();
     }
-    private void OnGameStart()
+    public void OnGameStart()
     {
         stateMachine.ChangeState(new SetupBoardState(this));
     }
@@ -21,14 +22,21 @@ public class GameManager : Singleton<GameManager>
     {
         stateMachine.ChangeState(newState);
     }
-
+/*
     public static void SetBuildBoardControls(bool enabled)
     {
         BuildBoardControls = enabled;
     }
-    public static void SetControls(bool enabled)
+    */
+    public void SetControls(bool enabled)
     { 
-        ControlsEnabled = enabled;
+            if (enabled)
+            {
+                inputActions.Enable();  
+            }
+            else
+            {
+                inputActions.Disable(); 
+            }
     }
-    
 }
