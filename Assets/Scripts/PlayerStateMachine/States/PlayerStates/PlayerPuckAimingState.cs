@@ -35,6 +35,7 @@ public class PlayerPuckAimingState : State
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckAimingState");
+        _owner.FallingCamera.CurrentFocusedPuck = _owner.puckSelected;
     }
 
     public override void OnExitState()

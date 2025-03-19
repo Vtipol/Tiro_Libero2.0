@@ -72,7 +72,12 @@ public class PlayerPuckSelectionState : State
                 //hit.collider.enabled = false;
                 _owner.SelectablePuckTT = puckSelectable;
                 _owner.puckSelected = puckSelectable.puck;
-                _owner.puckSelected.transform.position = _owner.puckController.puck.transform.position;
+                // TODO: we need to know which side of the board we are on
+                // this works for only one side of the board
+
+                // we should use puckController.SetPuck to set the new puck
+                // but its position should be in the center of the edge of the current slice
+                _owner.puckSelected.transform.position = _owner.puckController.Puck.transform.position;
 
                 _owner.SetState(EPlayerState.PlayerPuckPlacement);
             }

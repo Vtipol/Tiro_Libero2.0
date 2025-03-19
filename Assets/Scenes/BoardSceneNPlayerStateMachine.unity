@@ -318,7 +318,6 @@ GameObject:
   m_Component:
   - component: {fileID: 22183794}
   - component: {fileID: 22183793}
-  - component: {fileID: 22183795}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -355,24 +354,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &22183795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 22183792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf10db188859a044866c4d95b9c0100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rbPucks: []
-  _center: {fileID: 944866057}
-  _radius: 2
-  _triggersLayerMask:
-    serializedVersion: 2
-    m_Bits: 16
 --- !u!1 &164806385
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,7 +463,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puck (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4378551491024583048, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2061,17 +2043,17 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929811898}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64afe7303758ba44ab65fd34ec47027d, type: 3}
+  m_Script: {fileID: 11500000, guid: d1f50c89b6340294a979c9805fe00c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  puck: {fileID: 919132149391531166}
+  Puck: {fileID: 919132149391531166}
   puckTransform: {fileID: 543450653329966628}
   centerPoint: {fileID: 944866057}
   radius: 1.88
-  minAngle: -40
-  maxAngle: 40
+  minAngle: -30
+  maxAngle: 30
   moveSpeed: 50
   _isAming: 0
   _rotationSpeed: 1
@@ -2271,6 +2253,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
+      propertyPath: FallingCamera
+      value: 
+      objectReference: {fileID: 989557649}
+    - target: {fileID: 3121041906032169533, guid: 054092c1a1c6a9c48877baa403996be1, type: 3}
       propertyPath: puckController
       value: 
       objectReference: {fileID: 929811902}
@@ -2445,6 +2431,7 @@ MonoBehaviour:
   - {fileID: 1228651618}
   _boardCamera: {fileID: 929811899}
   _followCamera: {fileID: 1662382037}
+  CurrentFocusedPuck: {fileID: 0}
 --- !u!1 &1005353907
 GameObject:
   m_ObjectHideFlags: 0
@@ -2797,7 +2784,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919132149391531167}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GiveForce, Assembly-CSharp
         m_MethodName: AddForce
         m_Mode: 4
@@ -3429,7 +3416,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puck (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4378551491024583048, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -4775,7 +4763,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2047967129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cf10db188859a044866c4d95b9c0100, type: 3}
+  m_Script: {fileID: 11500000, guid: e3f9a3b1618687449823d2abe479474b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rbPucks: []
@@ -4920,7 +4908,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919132149391531167}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GiveForce, Assembly-CSharp
         m_MethodName: AddForce
         m_Mode: 4
@@ -5065,7 +5053,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 919132149391531167}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: GiveForce, Assembly-CSharp
         m_MethodName: AddForce
         m_Mode: 4
@@ -5125,17 +5113,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7629794382118861616, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
   m_PrefabInstance: {fileID: 2372805741965760650}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &919132149391531167 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4378551491024583048, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
-  m_PrefabInstance: {fileID: 2372805741965760650}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149391531166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c70c8cdc9c6b347b50fbe4a420dd11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2372805741965760650
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5192,7 +5169,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Puck
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4378551491024583048, guid: 2e8c40a5235a51846b255b51bb477e6b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

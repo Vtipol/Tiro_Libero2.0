@@ -11,6 +11,7 @@ public class PlayerStateMachine : MonoBehaviour
     public PuckSelectable SelectablePuckTT;
 
     public StationaryCamera StationaryCamera;
+    public FallingCamera FallingCamera;
     public FollowPuck FollowPuck;
     public DisableColliders DisableColliders;
 

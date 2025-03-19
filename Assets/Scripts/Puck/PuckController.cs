@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PuckController : MonoBehaviour
 {
-    public GameObject puck;
+    public GameObject Puck;
     public Transform puckTransform;
     public Transform centerPoint; // The center of the circle
     public float radius = 5f; // The distance from the center (must stay the same)
@@ -29,7 +29,7 @@ public class PuckController : MonoBehaviour
 
         if(_isAming)
         {
-            Vector3 rotation = puck.transform.rotation.eulerAngles;
+            Vector3 rotation = Puck.transform.rotation.eulerAngles;
 
             if (Input.GetKey(KeyCode.A))
             {
@@ -43,7 +43,7 @@ public class PuckController : MonoBehaviour
 
 
             //Debug.Log(rotation);
-            puck.transform.rotation = Quaternion.Euler(rotation);
+            Puck.transform.rotation = Quaternion.Euler(rotation);
 
             return;
         }
@@ -64,19 +64,24 @@ public class PuckController : MonoBehaviour
         // Convert angle to world position
         float radianAngle = currentAngle * Mathf.Deg2Rad;
         Vector3 newPos = new Vector3(Mathf.Cos(radianAngle), 0, Mathf.Sin(radianAngle)) * radius;
-        puck.transform.position = centerPoint.position + newPos;
-        Rigidbody rb = puck.GetComponent<Rigidbody>();
+        Puck.transform.position = centerPoint.position + newPos;
+        Rigidbody rb = Puck.GetComponent<Rigidbody>();
         rb.linearVelocity *= 0;
         rb.angularVelocity *= 0;
-        puck.transform.rotation = Quaternion.Euler(new(0, puck.transform.rotation.eulerAngles.y, 0));
+        Puck.transform.rotation = Quaternion.Euler(new(0, Puck.transform.rotation.eulerAngles.y, 0));
     }
 
     public void InitializePuckPosition()
     {
         // Calculate initial angle based on puck's position
-        Vector3 dir = puck.transform.position - centerPoint.position;
+        Vector3 dir = Puck.transform.position - centerPoint.position;
         currentAngle = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
         currentAngle = Mathf.Clamp(currentAngle, minAngle, maxAngle);
         UpdatePuckPosition();
+    }
+
+    public void SetPuck(GameObject puck) {
+        Puck = puck;
+        puckTransform = puck.transform;
     }
 }

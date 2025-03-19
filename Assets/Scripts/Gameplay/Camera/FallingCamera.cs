@@ -12,6 +12,8 @@ public class FallingCamera : MonoBehaviour
     private int _fallingCameraIndex;
     private bool _isFalling = false;
 
+    public GameObject CurrentFocusedPuck;
+
     #endregion
 
     #region MonoBehaviour Lifecycle Methods
@@ -85,6 +87,16 @@ public class FallingCamera : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (_isFalling) return;
+
+        // Can't trigger fall if it's not the current focused puck
+        if (CurrentFocusedPuck != null && other.attachedRigidbody.gameObject == CurrentFocusedPuck)
+        {
+            Debug.LogWarning("LETSGO");
+        }
+        else
+        {
+            return;
+        }
 
         _isFalling = true;
 

@@ -22,8 +22,8 @@ public class PlayerPuckPlacementState : State
         Debug.Log("Sto entrando in PlayerPuckPlacementState");
         _owner.puckController.enabled = true;
 
-        _owner.puckController.puck.SetActive(false);
-        _owner.puckController.puck = _owner.puckSelected;
+        _owner.puckController.Puck.SetActive(false);
+        _owner.puckController.Puck = _owner.puckSelected;
         _owner.puckController.InitializePuckPosition();
     }
 
