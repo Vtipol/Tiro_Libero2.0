@@ -1,16 +1,30 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 // fa il setup del gioco prima che inizia
 public class SetupBoardState : StateMachineState
 {
     private GameManager gameManager;
-
+    private bool BuildComplete = false;
     public SetupBoardState(GameManager manager)
     {
         gameManager = manager;
     }
 
+    private Button confirmButton;
+
+    public SetupBoardState(Button button)
+    {
+        confirmButton = button;
+        confirmButton.onClick.AddListener(OnConfirmPressed);
+    }
+    private void OnConfirmPressed()
+    {
+      BuildComplete = true;
+    }
     public override void Enter()
     {
         Debug.Log("Successfully entered SetupBoardState");
@@ -18,13 +32,12 @@ public class SetupBoardState : StateMachineState
         SceneManager.LoadScene("GamePuckBuildScene");
       
     }
-
-    public override void Update()
+    public override  void Update()
     {
-        if (Input.GetKey("Enter"))
+        if (BuildComplete)
         {
-            SceneManager.LoadScene("GamePuckBuildScene");
             gameManager.SetState(new PlayerTurnState(gameManager));
+            SceneManager.LoadScene("BoardSceneNPlayerStateMachine");
         }
     }
 }
