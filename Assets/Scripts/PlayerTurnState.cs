@@ -18,7 +18,6 @@ public class PlayerTurnState : StateMachineState
         Debug.Log("Player's turn...");
         gameManager.SetControls(true);
         playerInput.Enable(); 
-
         playerInput.Mouse.MouseReleased.performed += OnMouseReleased;
     }
 

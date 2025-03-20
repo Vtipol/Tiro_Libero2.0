@@ -22,12 +22,7 @@ public class GameManager : Singleton<GameManager>
     {
         stateMachine.ChangeState(newState);
     }
-/*
-    public static void SetBuildBoardControls(bool enabled)
-    {
-        BuildBoardControls = enabled;
-    }
-    */
+
     public void SetControls(bool enabled)
     { 
             if (enabled)
