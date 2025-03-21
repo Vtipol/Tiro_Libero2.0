@@ -29,7 +29,7 @@ public class SetupBoardState : StateMachineState
     {
         Debug.Log("Successfully entered SetupBoardState");
         Debug.Log(" Setting up the board...");
-        SceneManager.LoadScene("GamePuckBuildScene");
+        SceneManager.LoadScene("BoardSceneNPlayerStateMachine");
       
     }
     public override  void Update()
@@ -37,7 +37,6 @@ public class SetupBoardState : StateMachineState
         if (BuildComplete)
         {
             gameManager.SetState(new PlayerTurnState(gameManager));
-            SceneManager.LoadScene("BoardSceneNPlayerStateMachine");
         }
     }
 }

@@ -16,9 +16,9 @@ public class PlayerWaitingState : State
     {
         throw new System.NotImplementedException();
     }
-
     public override void OnEnterState()
     {
+        GameManager.Instance.SetState(new PuckMovingState(GameManager.Instance));
         Debug.Log("Sto entrando in PlayerWaitingState");
         _owner.StationaryCamera.StopPulling();
 

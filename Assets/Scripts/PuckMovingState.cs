@@ -10,12 +10,10 @@ public class PuckMovingState : StateMachineState
     {
         gameManager = manager;
     }
-
     public void PuckisStill()
     {
         PuckAbstract.PuckStop += PuckIsStill;
     }
-
    public void PuckIsStill()
     {
         PuckStill = true;
