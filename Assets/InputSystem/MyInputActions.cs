@@ -92,7 +92,7 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
             ""id"": ""f8e039fc-d13f-4eb7-bd59-66149caf47fd"",
             ""actions"": [
                 {
-                    ""name"": ""MouseReleased"",
+                    ""name"": ""SelectPuck"",
                     ""type"": ""Button"",
                     ""id"": ""8c425199-dff9-4665-9158-9c49ce18413f"",
                     ""expectedControlType"": """",
@@ -101,18 +101,9 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseMoved"",
-                    ""type"": ""Value"",
-                    ""id"": ""19d74487-e2ed-4f10-ab5c-766472c5218b"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""AdjustRotation"",
+                    ""name"": ""Charge"",
                     ""type"": ""Button"",
-                    ""id"": ""f4bcc3f2-76fe-4424-b83b-437918b46ae0"",
+                    ""id"": ""62dc5449-33a3-446c-bc23-56c332cf0667"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -127,29 +118,18 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseReleased"",
+                    ""action"": ""SelectPuck"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""48c80382-c03d-41cf-ba1b-18ed83e620b9"",
-                    ""path"": ""<Mouse>/position"",
+                    ""id"": ""743486c0-2657-4c3a-b82b-b557895a3504"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseMoved"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6d588016-9d39-430b-aa88-395c4b9a9e37"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""AdjustRotation"",
+                    ""action"": ""Charge"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -160,9 +140,8 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
 }");
         // Mouse
         m_Mouse = asset.FindActionMap("Mouse", throwIfNotFound: true);
-        m_Mouse_MouseReleased = m_Mouse.FindAction("MouseReleased", throwIfNotFound: true);
-        m_Mouse_MouseMoved = m_Mouse.FindAction("MouseMoved", throwIfNotFound: true);
-        m_Mouse_AdjustRotation = m_Mouse.FindAction("AdjustRotation", throwIfNotFound: true);
+        m_Mouse_SelectPuck = m_Mouse.FindAction("SelectPuck", throwIfNotFound: true);
+        m_Mouse_Charge = m_Mouse.FindAction("Charge", throwIfNotFound: true);
     }
 
     ~@MyInputActions()
@@ -243,9 +222,8 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
     // Mouse
     private readonly InputActionMap m_Mouse;
     private List<IMouseActions> m_MouseActionsCallbackInterfaces = new List<IMouseActions>();
-    private readonly InputAction m_Mouse_MouseReleased;
-    private readonly InputAction m_Mouse_MouseMoved;
-    private readonly InputAction m_Mouse_AdjustRotation;
+    private readonly InputAction m_Mouse_SelectPuck;
+    private readonly InputAction m_Mouse_Charge;
     /// <summary>
     /// Provides access to input actions defined in input action map "Mouse".
     /// </summary>
@@ -258,17 +236,13 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public MouseActions(@MyInputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Mouse/MouseReleased".
+        /// Provides access to the underlying input action "Mouse/SelectPuck".
         /// </summary>
-        public InputAction @MouseReleased => m_Wrapper.m_Mouse_MouseReleased;
+        public InputAction @SelectPuck => m_Wrapper.m_Mouse_SelectPuck;
         /// <summary>
-        /// Provides access to the underlying input action "Mouse/MouseMoved".
+        /// Provides access to the underlying input action "Mouse/Charge".
         /// </summary>
-        public InputAction @MouseMoved => m_Wrapper.m_Mouse_MouseMoved;
-        /// <summary>
-        /// Provides access to the underlying input action "Mouse/AdjustRotation".
-        /// </summary>
-        public InputAction @AdjustRotation => m_Wrapper.m_Mouse_AdjustRotation;
+        public InputAction @Charge => m_Wrapper.m_Mouse_Charge;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -295,15 +269,12 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MouseActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MouseActionsCallbackInterfaces.Add(instance);
-            @MouseReleased.started += instance.OnMouseReleased;
-            @MouseReleased.performed += instance.OnMouseReleased;
-            @MouseReleased.canceled += instance.OnMouseReleased;
-            @MouseMoved.started += instance.OnMouseMoved;
-            @MouseMoved.performed += instance.OnMouseMoved;
-            @MouseMoved.canceled += instance.OnMouseMoved;
-            @AdjustRotation.started += instance.OnAdjustRotation;
-            @AdjustRotation.performed += instance.OnAdjustRotation;
-            @AdjustRotation.canceled += instance.OnAdjustRotation;
+            @SelectPuck.started += instance.OnSelectPuck;
+            @SelectPuck.performed += instance.OnSelectPuck;
+            @SelectPuck.canceled += instance.OnSelectPuck;
+            @Charge.started += instance.OnCharge;
+            @Charge.performed += instance.OnCharge;
+            @Charge.canceled += instance.OnCharge;
         }
 
         /// <summary>
@@ -315,15 +286,12 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="MouseActions" />
         private void UnregisterCallbacks(IMouseActions instance)
         {
-            @MouseReleased.started -= instance.OnMouseReleased;
-            @MouseReleased.performed -= instance.OnMouseReleased;
-            @MouseReleased.canceled -= instance.OnMouseReleased;
-            @MouseMoved.started -= instance.OnMouseMoved;
-            @MouseMoved.performed -= instance.OnMouseMoved;
-            @MouseMoved.canceled -= instance.OnMouseMoved;
-            @AdjustRotation.started -= instance.OnAdjustRotation;
-            @AdjustRotation.performed -= instance.OnAdjustRotation;
-            @AdjustRotation.canceled -= instance.OnAdjustRotation;
+            @SelectPuck.started -= instance.OnSelectPuck;
+            @SelectPuck.performed -= instance.OnSelectPuck;
+            @SelectPuck.canceled -= instance.OnSelectPuck;
+            @Charge.started -= instance.OnCharge;
+            @Charge.performed -= instance.OnCharge;
+            @Charge.canceled -= instance.OnCharge;
         }
 
         /// <summary>
@@ -365,25 +333,18 @@ public partial class @MyInputActions: IInputActionCollection2, IDisposable
     public interface IMouseActions
     {
         /// <summary>
-        /// Method invoked when associated input action "MouseReleased" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "SelectPuck" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMouseReleased(InputAction.CallbackContext context);
+        void OnSelectPuck(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "MouseMoved" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Charge" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMouseMoved(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "AdjustRotation" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnAdjustRotation(InputAction.CallbackContext context);
+        void OnCharge(InputAction.CallbackContext context);
     }
 }

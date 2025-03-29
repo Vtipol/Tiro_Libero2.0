@@ -1,20 +1,15 @@
 using UnityEngine;
 
-public class PlayerIdleState : State
+public class PlayerIdleState : GenericState
 {
-    public PlayerIdleState(PlayerStateMachine player)
+    private PlayerStateMachine stateMachine;
+    private Player player;
+    public PlayerIdleState(PlayerStateMachine stateMachine, Player player)
     {
-        _owner = player;
-    }
-    public PlayerStateMachine _owner { get; }
-    public override void OnCollisionEnter()
-    {
-        throw new System.NotImplementedException();
-    }
+        this.player = player;
+        this.stateMachine = stateMachine;
 
-    public override void OnCollisionExit()
-    {
-        throw new System.NotImplementedException();
+        player.startPlayerTurnSignal += StartPlayerTurnSignal;
     }
 
     public override void OnEnterState()
@@ -27,23 +22,7 @@ public class PlayerIdleState : State
         Debug.Log("Sto uscendo da PlayerIdle");
     }
 
-    public override void OnFixedUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnTriggerEnter()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnTriggerExit()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnUpdate()
-    {
-        Debug.Log("Sono nell'update di PlayerPuckAimingState");
+    public void StartPlayerTurnSignal(){
+        stateMachine.SetState(EPlayerState.PlayerPuckSelection);
     }
 }

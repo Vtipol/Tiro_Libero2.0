@@ -1,76 +1,59 @@
-using Mono.Cecil.Cil;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEngine.UI.GridLayoutGroup;
 
-public class PlayerPuckAimingState : State
+public class PlayerPuckAimingState : GenericState
 {
+    public MyInputActions inputAction;
+    private PlayerManager playerManager;
     private Vector3 startMousePosition;
     private Vector3 endMousePosition;
 
     private Vector2 CardinalXZStart;
     private Vector2 CardinalXZEnd;
-
-    private Rigidbody puckToThrowRB;
     private Vector2 directionThrowXZ;
 
     //private Vector3 tremblingOffset;
 
     private bool aiming;
 
-    public PlayerPuckAimingState(PlayerStateMachine player)
+    private PlayerStateMachine stateMachine;
+    private Player player;
+    private PuckBase previousPuckShot;
+    public PlayerPuckAimingState(PlayerStateMachine stateMachine, Player player)
     {
-        _owner = player;
-    }
-    public PlayerStateMachine _owner { get; }
-    public override void OnCollisionEnter()
-    {
-        throw new System.NotImplementedException();
-    }
+        this.player = player;
+        this.stateMachine = stateMachine;
 
-    public override void OnCollisionExit()
-    {
-        throw new System.NotImplementedException();
+        playerManager = PlayerManager.Instance;
+
+        inputAction = new MyInputActions();
+
+        inputAction.Mouse.Charge.performed += Charge;
+        inputAction.Mouse.Charge.canceled += Shoot;
+
+        //playerManager.FallingCamera.OnPuckFallAnimationEnded += (go) => previousPuckShot.DestroyPuck();
     }
 
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckAimingState");
-        _owner.FallingCamera.CurrentFocusedPuck = _owner.puckSelected;
-        _owner.StationaryCamera.StartPull();
+
+        inputAction.Enable();
+
+        playerManager.FallingCamera.CurrentFocusedPuck = playerManager.puckSelected.gameObject;
+        playerManager.StationaryCamera.StartPull();
     }
 
     public override void OnExitState()
     {
         Debug.Log("Sto uscendo da PlayerPuckAimingState");
-    }
 
-    public override void OnFixedUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnTriggerEnter()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void OnTriggerExit()
-    {
-        throw new System.NotImplementedException();
+        inputAction.Disable();
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("Sono nell'update di PlayerPuckAimingState");
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Charge();
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            Shoot();
-        }
 
         //controllo che muove la mira mentre sto caricando
         if (aiming)
@@ -87,38 +70,38 @@ public class PlayerPuckAimingState : State
             //}
 
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
-            if (_owner.invertedAim)
-                _owner.lineRenderer.SetPosition(1, new Vector3(puckToThrowRB.transform.position.x * 2 - mousePos.x , 0, puckToThrowRB.transform.position.z * 2 - mousePos.z ));
+            if (playerManager.invertedAim)
+                playerManager.lineRenderer.SetPosition(1, new Vector3(playerManager.puckToThrow.transform.position.x * 2 - mousePos.x , 0, playerManager.puckToThrow.transform.position.z * 2 - mousePos.z ));
             else
-                _owner.lineRenderer.SetPosition(1, new Vector3(mousePos.x , 0, mousePos.z ));
+                playerManager.lineRenderer.SetPosition(1, new Vector3(mousePos.x , 0, mousePos.z ));
 
-            float distance = Vector3.Distance(_owner.puckToThrow.transform.position, _owner.lineRenderer.GetPosition(1));
+            float distance = Vector3.Distance(playerManager.puckToThrow.transform.position, playerManager.lineRenderer.GetPosition(1));
 
-            _owner.StationaryCamera.UpdatePullDistance(distance);
+            playerManager.StationaryCamera.UpdatePullDistance(distance);
         }
     }
 
-    //funzione fatta alla premuta del mouse che è il punto di inizio di mira
-    public void Charge()
+    //funzione fatta alla premuta del mouse che ï¿½ il punto di inizio di mira
+    public void Charge(InputAction.CallbackContext callbackContext)
     {
+        Debug.Log("CHARGENING");
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, _owner.puckLayerMask))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, playerManager.puckLayerMask))
         {
-            PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
+            PuckBase puckSelectable = hit.collider.gameObject.GetComponent<PuckBase>();
             if (puckSelectable != null && puckSelectable.placed == true && puckSelectable.throwed == false)
             {
-                _owner.SelectablePuckTT = puckSelectable;
-                _owner.puckToThrow = _owner.puckSelected;
-                puckToThrowRB = _owner.puckToThrow.GetComponent<Rigidbody>();
+                playerManager.SelectablePuckTT = puckSelectable;
+                playerManager.puckToThrow = playerManager.puckSelected;
 
                 startMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
                 CardinalXZStart = new Vector2(startMousePosition.x, startMousePosition.z);
 
-                _owner.lineRenderer.SetPosition(0, new Vector3(_owner.puckToThrow.transform.position.x, 0, _owner.puckToThrow.transform.position.z));
+                playerManager.lineRenderer.SetPosition(0, new Vector3(playerManager.puckToThrow.transform.position.x, 0, playerManager.puckToThrow.transform.position.z));
                 //Debug.Log("puck line starting"+_owner.puckToThrow.transform.position);
-                _owner.lineRenderer.enabled = true;
+                playerManager.lineRenderer.enabled = true;
 
                 aiming = true;
             }
@@ -126,43 +109,43 @@ public class PlayerPuckAimingState : State
     }
 
     //funzione fatta al rilascio del mouse e che calcola la direzione dove lanciare il puck e applica la direzione di forza
-    public void Shoot()
+    public void Shoot(InputAction.CallbackContext callbackContext)
     {
-        if (_owner.puckToThrow != null)
+        Debug.Log("Shoootening");
+
+        if (playerManager.puckToThrow != null)
         {
             aiming = false;
             endMousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
             CardinalXZEnd = new Vector2(endMousePosition.x, endMousePosition.z);
 
-            _owner.lineRenderer.SetPosition(1, new Vector3(endMousePosition.x, 0, endMousePosition.z));
-            _owner.lineRenderer.enabled = false;
+            playerManager.lineRenderer.SetPosition(1, new Vector3(endMousePosition.x, 0, endMousePosition.z));
+            playerManager.lineRenderer.enabled = false;
 
-            if (_owner.invertedThrow)
+            if (playerManager.invertedThrow)
                 directionThrowXZ = (CardinalXZStart - CardinalXZEnd);
             else
                 directionThrowXZ = (CardinalXZEnd - CardinalXZStart);
 
             Debug.Log("Direzione di sparo: " + directionThrowXZ);
 
-            _owner.FollowPuck.SetPuck(_owner.puckToThrow);
+            playerManager.FollowPuck.SetPuck(playerManager.puckToThrow.gameObject);
 
-            if (puckToThrowRB != null)
-            {
+            var rb = playerManager.puckToThrow.GetComponent<Rigidbody>();
                 //applica la forza al rb
-                puckToThrowRB.AddForce(new Vector3(directionThrowXZ.x, 0, directionThrowXZ.y) * _owner.throwForce, ForceMode.Impulse);
+            rb.AddForce(new Vector3(directionThrowXZ.x, 0, directionThrowXZ.y) * playerManager.throwForce, ForceMode.Impulse);
 
+            previousPuckShot = playerManager.puckToThrow;
                 // Adding the puck so we can make it fall when exiting the board
-                _owner.DisableColliders.AddRb(_owner.puckToThrow.GetComponent<Rigidbody>());
-                _owner.SelectablePuckTT.throwed = true;
-                _owner.puckToThrow = null;
-                _owner.SelectablePuckTT.GetComponent<Collider>().enabled = false;
-                _owner.SelectablePuckTT = null;
-                _owner.puckSelected = null;
-                _owner.myPlacedPucks--;
+            playerManager.DisableColliders.AddRb(playerManager.puckToThrow.GetComponent<Rigidbody>());
+            playerManager.SelectablePuckTT.throwed = true;
+            playerManager.puckToThrow = null;
+            playerManager.SelectablePuckTT = null;
+            playerManager.puckSelected = null;
+            playerManager.myPlacedPucks--;
 
-                if (_owner.myPlacedPucks <= 0 || _owner.place1AtTime)
-                    _owner.SetState(EPlayerState.PlayerWaiting);
-            }
+            stateMachine.SetState(EPlayerState.PlayerIdle);
+            playerManager.playerTurnEndSignal?.Invoke();
         }
     }
 }

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4994923228250956349}
   - component: {fileID: 243037175427110483}
   - component: {fileID: 3843015021360644689}
-  - component: {fileID: 440952382784549829}
   m_Layer: 0
   m_Name: BigPuck
   m_TagString: Untagged
@@ -147,20 +146,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7398053763436070135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 190534169706baa4894568e7a4fea59d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b16aca7a1ddf7f41adb13483eb6d1d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _puckData: {fileID: 11400000, guid: 5197358142d97f349814d8d786bba94f, type: 2}
---- !u!114 &440952382784549829
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7398053763436070135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 190d842cc4eb8214aae7ff86d9f69d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _puckData: {fileID: 11400000, guid: 5197358142d97f349814d8d786bba94f, type: 2}
+  _puckData: {fileID: 11400000, guid: 33852554acde5944a8e89712dcc93a20, type: 2}

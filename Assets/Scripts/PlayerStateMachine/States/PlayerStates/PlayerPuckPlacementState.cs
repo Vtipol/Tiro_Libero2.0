@@ -1,12 +1,16 @@
 using UnityEngine;
 
-public class PlayerPuckPlacementState : State
+public class PlayerPuckPlacementState : GenericState
 {
-    public PlayerPuckPlacementState(PlayerStateMachine player)
+    private PlayerManager playerManager;
+    private PlayerStateMachine stateMachine;
+    private Player player;
+    public PlayerPuckPlacementState(PlayerStateMachine stateMachine, Player player)
     {
-        _owner = player;
+        this.player = player;
+        this.stateMachine = stateMachine;
+        playerManager = PlayerManager.Instance;
     }
-    public PlayerStateMachine _owner { get;}
     public override void OnCollisionEnter()
     {
         throw new System.NotImplementedException();
@@ -20,11 +24,7 @@ public class PlayerPuckPlacementState : State
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckPlacementState");
-        _owner.puckController.enabled = true;
-
-        _owner.puckController.Puck.SetActive(false);
-        _owner.puckController.Puck = _owner.puckSelected;
-        _owner.puckController.InitializePuckPosition();
+        playerManager.puckController.InitializePuckPosition();
     }
 
     public override void OnExitState()
@@ -49,13 +49,12 @@ public class PlayerPuckPlacementState : State
 
     public override void OnUpdate()
     {
-        Debug.Log("Sono nell'update di PlayerPuckPlacementState");
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Place Puck
-            _owner.puckController.enabled = false;
-            _owner.SelectablePuckTT.placed = true;
-            _owner.SetState(EPlayerState.PlayerPuckAiming);
+            playerManager.puckController.enabled = false;
+            playerManager.SelectablePuckTT.placed = true;
+            stateMachine.SetState(EPlayerState.PlayerPuckAiming);
         }
     }
 }

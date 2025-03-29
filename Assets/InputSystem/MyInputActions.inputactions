@@ -6,7 +6,7 @@
             "id": "f8e039fc-d13f-4eb7-bd59-66149caf47fd",
             "actions": [
                 {
-                    "name": "MouseReleased",
+                    "name": "SelectPuck",
                     "type": "Button",
                     "id": "8c425199-dff9-4665-9158-9c49ce18413f",
                     "expectedControlType": "",
@@ -15,18 +15,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseMoved",
-                    "type": "Value",
-                    "id": "19d74487-e2ed-4f10-ab5c-766472c5218b",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "AdjustRotation",
+                    "name": "Charge",
                     "type": "Button",
-                    "id": "f4bcc3f2-76fe-4424-b83b-437918b46ae0",
+                    "id": "62dc5449-33a3-446c-bc23-56c332cf0667",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -41,29 +32,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseReleased",
+                    "action": "SelectPuck",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "48c80382-c03d-41cf-ba1b-18ed83e620b9",
-                    "path": "<Mouse>/position",
+                    "id": "743486c0-2657-4c3a-b82b-b557895a3504",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseMoved",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6d588016-9d39-430b-aa88-395c4b9a9e37",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "AdjustRotation",
+                    "action": "Charge",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
