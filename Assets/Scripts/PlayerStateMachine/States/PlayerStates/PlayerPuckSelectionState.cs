@@ -3,15 +3,22 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerPuckSelectionState : State
+public class PlayerPuckSelectionState : GenericState
 {
-    public Action rightMouseButton;
-
-    public PlayerPuckSelectionState(PlayerStateMachine player)
+    public MyInputActions inputAction;
+    private PlayerStateMachine stateMachine;
+    private Player player;
+    private PlayerManager playerManager;
+    public PlayerPuckSelectionState(PlayerStateMachine stateMachine, Player player)
     {
-        _owner = player;
+        this.player = player;
+        this.stateMachine = stateMachine;
+        playerManager = PlayerManager.Instance;
+
+        inputAction = new MyInputActions();
+
+        inputAction.Mouse.SelectPuck.performed += SelectPuck;
     }
-    public PlayerStateMachine _owner { get; }
     public override void OnCollisionEnter()
     {
         throw new System.NotImplementedException();
@@ -25,13 +32,17 @@ public class PlayerPuckSelectionState : State
     public override void OnEnterState()
     {
         Debug.Log("Sto entrando in PlayerPuckSelectionState");
-        rightMouseButton += SelectPuck;
+
+        inputAction.Enable();
+        //rightMouseButton += SelectPuck;
     }
 
     public override void OnExitState()
     {
         Debug.Log("Sto uscendo da PlayerPuckSelectionState");
-        rightMouseButton -= SelectPuck;
+
+        inputAction.Disable();
+        //rightMouseButton -= SelectPuck;
     }
 
     public override void OnFixedUpdate()
@@ -51,35 +62,31 @@ public class PlayerPuckSelectionState : State
 
     public override void OnUpdate()
     {
-        Debug.Log("Sono nell'update di PlayerPuckSelectionState");
-        //al posto di questo if la funzione sarà aggiunta alla
-        if (Input.GetMouseButtonDown(0))
-        {
-            SelectPuck();
-        }
     }
-    //seleziono il puck che verrà mirato
-    public void SelectPuck()
+    //seleziono il puck che verrï¿½ mirato
+    public void SelectPuck(InputAction.CallbackContext callback)
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, playerManager.puckLayerMask))
         {
-            PuckSelectable puckSelectable = hit.collider.gameObject.GetComponent<PuckSelectable>();
-            if (puckSelectable != null && puckSelectable.placed == false)
+            PuckBase puck = hit.collider.gameObject.transform?.parent?.parent.GetComponent<PuckBase>();
+            Debug.Log(puck);
+            if (puck != null && puck.placed == false)
             {
                 //hit.collider.enabled = false;
-                _owner.SelectablePuckTT = puckSelectable;
-                _owner.puckSelected = puckSelectable.puck;
+                playerManager.SelectablePuckTT = puck;
+                playerManager.puckSelected = puck;
                 // TODO: we need to know which side of the board we are on
                 // this works for only one side of the board
 
                 // we should use puckController.SetPuck to set the new puck
                 // but its position should be in the center of the edge of the current slice
-                _owner.puckSelected.transform.position = _owner.puckController.Puck.transform.position;
+                playerManager.puckController.SetPuck(puck);
+                playerManager.puckToThrow = puck;
 
-                _owner.SetState(EPlayerState.PlayerPuckPlacement);
+                stateMachine.SetState(EPlayerState.PlayerPuckPlacement);
             }
         }
     }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PuckController : MonoBehaviour
 {
-    public GameObject Puck;
+    public PuckBase Puck;
     public Transform puckTransform;
     public Transform centerPoint; // The center of the circle
     public float radius = 5f; // The distance from the center (must stay the same)
@@ -14,7 +14,7 @@ public class PuckController : MonoBehaviour
 
     void Start()
     { 
-        InitializePuckPosition();
+        
     }
 
     public bool _isAming = false;
@@ -22,6 +22,8 @@ public class PuckController : MonoBehaviour
 
     void Update()
     {
+        if(Puck == null) return;
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         { 
             _isAming = !_isAming;
@@ -80,8 +82,8 @@ public class PuckController : MonoBehaviour
         UpdatePuckPosition();
     }
 
-    public void SetPuck(GameObject puck) {
+    public void SetPuck(PuckBase puck) {
         Puck = puck;
-        puckTransform = puck.transform;
+        //puckTransform = puck.transform;
     }
 }

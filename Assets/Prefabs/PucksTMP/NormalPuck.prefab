@@ -487,6 +487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5706710580104568346}
   - component: {fileID: 2992761947906853103}
+  - component: {fileID: 3601387882976931228}
   m_Layer: 6
   m_Name: NormalPuck
   m_TagString: Untagged
@@ -509,7 +510,6 @@ Transform:
   m_Children:
   - {fileID: 5942538561303348678}
   - {fileID: 5827563395121927119}
-  - {fileID: 6372096879328950656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2992761947906853103
@@ -539,6 +539,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!114 &3601387882976931228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051048244473809044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b16aca7a1ddf7f41adb13483eb6d1d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _puckData: {fileID: 11400000, guid: aaafd9707f65353478d37df0aec7b518, type: 2}
+  placed: 0
+  throwed: 0
 --- !u!1 &2114866792359264306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,84 +1084,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6, y: 0.1, z: 0.6}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &4565321499618451164
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6372096879328950656}
-  - component: {fileID: 3694493281637057114}
-  - component: {fileID: 1454149581201071274}
-  - component: {fileID: 7874735229300521881}
-  m_Layer: 6
-  m_Name: SelectableCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6372096879328950656
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565321499618451164}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5706710580104568346}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3694493281637057114
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565321499618451164}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &1454149581201071274
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565321499618451164}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7874735229300521881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565321499618451164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66495e5f021848a428679bdafc3e1dd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  puck: {fileID: 2051048244473809044}
-  placed: 0
-  throwed: 0
 --- !u!1 &4673284349427962892
 GameObject:
   m_ObjectHideFlags: 0
