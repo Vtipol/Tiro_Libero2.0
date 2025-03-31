@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class GamePuckBuilder : Singleton<GamePuckBuilder>
+public class GamePuckBuilder : MonoBehaviour, ISubscriber
 {
-    public Player puckBuildingPlayer;
+    public Player player;
     private int normalPucksSelected = 1;
     private int weightPucksSelected = 1;
     private int bigPucksSelected = 1;
@@ -40,11 +40,15 @@ public class GamePuckBuilder : Singleton<GamePuckBuilder>
         removeBigPuck.onClick.AddListener(RemoveBigPuck);
 
         confirmButton.onClick.AddListener(Confirm);
+        Publisher.Subscribe(this, typeof(PlayerPuckBuildMessage));
 
         puckBuilderUI.SetActive(false);
 
 
         UpdateConfirmButton();
+    }
+    void OnDestroy(){
+        Publisher.Unsubscribe(this, typeof(PlayerPuckBuildMessage));
     }
 
     private void AddNormalPuck()
@@ -80,16 +84,16 @@ public class GamePuckBuilder : Singleton<GamePuckBuilder>
     }
     public void Confirm()
     {
-        puckBuildingPlayer.normalPucks = normalPucksSelected;
+        player.normalPucks = normalPucksSelected;
         normalPucksText.text = "1";
-        puckBuildingPlayer.weightPucks = weightPucksSelected;
+        player.weightPucks = weightPucksSelected;
         weightPucksText.text = "1";
-        puckBuildingPlayer.bigPucks = bigPucksSelected;
+        player.bigPucks = bigPucksSelected;
         bigPucksText.text = "1";
 
         puckBuilderUI.SetActive(false);
 
-        puckBuilt?.Invoke();
+        Publisher.Publish(new PlayerPuckBuildConfirmMessage(player));
     }
 
     private void AddRemovePuckType(PuckType _puckType, bool _AddRemove)
@@ -135,5 +139,13 @@ public class GamePuckBuilder : Singleton<GamePuckBuilder>
             confirmButton.interactable = false;
         else
             confirmButton.interactable = true;
+    }
+
+    public void OnPublish(IPublisherMessage message)
+    {
+        if(message is PlayerPuckBuildMessage playerPuckBuildMessage){
+            player = playerPuckBuildMessage.player;
+            StartBuild();
+        }
     }
 }

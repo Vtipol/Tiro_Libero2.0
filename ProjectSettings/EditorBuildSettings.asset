@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/BoardSceneNPlayerStateMachine.unity
+    path: Assets/Scenes/Main Menu.unity
+    guid: da7417c9d5a4493108a5fec559964c66
+  - enabled: 1
+    path: Assets/Scenes/BoardScene.unity
     guid: 607c515541cbf8f41b7c981cc83e010e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2cd751a2534b3264c884c398bd373e66, type: 3}
